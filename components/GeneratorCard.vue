@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { NCard, NThing, NRadioButton, NRadioGroup, NMessageProvider } from 'naive-ui'
 import { storeToRefs } from 'pinia';
 
 const tweetStore = useTweetStore()

@@ -1,10 +1,9 @@
 <script setup>
-import { NCard, NSpin, NIcon, NButton, NAvatar } from 'naive-ui'
 import Heart12Regular from '@vicons/fluent/Heart12Regular'
 import Chat12Regular from '@vicons/fluent/Chat12Regular'
 import BarChartSharp from '@vicons/material/BarChartSharp'
 import LoopRound from '@vicons/material/LoopRound'
-import { LogoTwitter } from '@vicons/ionicons4'
+import LogoTwitter from '@vicons/ionicons4/LogoTwitter'
 
 const tweetStore = useTweetStore()
 

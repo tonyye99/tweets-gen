@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import {
-  NForm, NGrid, NInput, NGi, NSelect,
-  NFormItemGi, NButton, NCheckbox, FormInst, useMessage
-} from 'naive-ui'
+import { FormInst, useMessage } from 'naive-ui'
 import { storeToRefs } from 'pinia';
 
 const message = useMessage()

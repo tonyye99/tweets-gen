@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { NSwitch } from 'naive-ui'
 
 const colorMode = useColorMode()
 
