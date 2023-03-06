@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
   if (!success) {
     return {
       status: 429,
-      body: "Too many requests",
+      content: "Too many requests",
     }
   }
 
@@ -39,12 +39,12 @@ export default defineEventHandler(async (event) => {
     const { choices } = await response.json();
     return {
       status: 200,
-      body: choices[0].message,
+      content: choices[0].message?.content,
     };
   } else {
     return {
       status: response.status,
-      body: await response.text(),
+      content: await response.text(),
     };
   }
 });

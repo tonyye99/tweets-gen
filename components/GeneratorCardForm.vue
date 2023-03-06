@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia';
 
 const message = useMessage()
 const tweetStore = useTweetStore()
-const { model, loading, size, messages } = storeToRefs(tweetStore)
+const { model, loading, size } = storeToRefs(tweetStore)
 const formRef = ref<FormInst | null>(null)
 
 const handleGenerate = () => {
@@ -16,13 +16,13 @@ const handleGenerate = () => {
 
     tweetStore.setLoading(true)
 
-    if (messages.value.length > 0) {
+    if (tweetStore.messages.length > 0) {
       tweetStore.addMessage({
         role: 'user',
         content: tweetStore.userContent,
       })
     } else {
-      const messages = [
+      tweetStore.setMessage([
         {
           role: 'system',
           content: tweetStore.systemContent,
@@ -31,23 +31,16 @@ const handleGenerate = () => {
           role: 'user',
           content: tweetStore.userContent,
         },
-      ]
-      tweetStore.setMessage(messages)
+      ])
     }
-
-    // const body = {
-    //   systemContent: tweetStore.systemContent,
-    //   userContent: tweetStore.userContent,
-    // }
 
     const { data, pending, error } = await useFetch('/api/generate', {
       method: 'POST',
-      body: tweetStore.messages,
+      body: [...tweetStore.messages],
+      pick: ['status', 'content'],
     })
 
     tweetStore.setLoading(pending.value)
-
-    console.log(data.value)
 
     if (data.value?.status === 429) {
       tweetStore.removeLastMessage()
@@ -55,21 +48,22 @@ const handleGenerate = () => {
       return
     }
 
-    if (data.value?.status === 200 && data.value?.body.content) {
+    if (data.value?.status === 200 && data.value?.content) {
+      tweetStore.addMessage({
+        role: 'assistant',
+        content: data.value?.content,
+      })
       if (tweetStore.contentType === 'thread') {
-        tweetStore.setThread(data.value?.body.content)
+        tweetStore.setThread(data.value?.content)
         message.success('Your thread is ready!')
         return
       }
-      tweetStore.setTweet(data.value?.body.content)
-      tweetStore.addMessage({
-        role: 'assistant',
-        content: data.value?.body.content,
-      })
+      tweetStore.setTweet(data.value?.content)
       message.success('Your tweet is ready!')
     }
 
     if (error.value) {
+      console.log(error.value)
       message.error('Something went wrong, please try again later')
     }
   })
