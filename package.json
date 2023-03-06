@@ -1,0 +1,29 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxtjs/color-mode": "^3.2.0",
+    "@vicons/fluent": "^0.12.0",
+    "@vicons/ionicons4": "^0.12.0",
+    "@vicons/material": "^0.12.0",
+    "autoprefixer": "^10.4.13",
+    "naive-ui": "^2.34.3",
+    "nuxt": "^3.2.3",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.7",
+    "vfonts": "^0.0.3"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.4.7",
+    "@types/request-ip": "^0.0.37",
+    "@upstash/ratelimit": "^0.3.9",
+    "@upstash/redis": "^1.20.1",
+    "request-ip": "^3.3.0"
+  }
+}
