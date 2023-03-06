@@ -11,6 +11,8 @@ const tweet = computed(() => tweetStore.tweet)
 
 const loading = computed(() => tweetStore.loading)
 
+const thread = ref(null)
+
 const tweetActions = [
   {
     icon: Chat12Regular,
@@ -53,6 +55,13 @@ const shareTweet = () => {
   const url = `https://twitter.com/intent/tweet?text=${tweet.value}`
   window.open(url, '_blank')
 }
+
+// scroll to thread when it's ready
+watch(loading, (val) => {
+  if (val === false) {
+    thread.value.scrollIntoView({ behavior: 'smooth' })
+  }
+})
 </script>
 
 <template>
@@ -102,6 +111,7 @@ const shareTweet = () => {
               {{ tweet }}
             </li>
           </ul>
+          <div ref="thread"></div>
         </div>
         <template #description>
           <span class="text-center text-lg text-black font-bold">Generating...</span>
