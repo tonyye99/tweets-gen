@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     return {
       status: 429,
       content: "Too many requests",
-    }
+    };
   }
 
   const body = await readBody(event);
@@ -33,7 +33,7 @@ export default defineEventHandler(async (event) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${config.openaiApiKey}`,
     },
-  })
+  });
 
   if (response.ok) {
     const { choices } = await response.json();

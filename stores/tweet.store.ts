@@ -51,7 +51,7 @@ export const useTweetStore = defineStore("tweet", {
         return `Write a ${this.model.mood} tweet about ${this.model.topic}
         ${this.model.isEmoji ? "and with emoji" : "and with no emoji"}`;
       }
-      return `Write a list of five ideas about ${this.model.topic} in a ${this.model.mood} tone. Each idea should not be longer than 100 characters.`;
+      return `Write a list of five ideas about ${this.model.topic} in a ${this.model.mood} tone. Each idea should not be longer than 150 characters.`;
     },
     randomPlaceholder(): string {
       return this.topicPlaceHolders[
