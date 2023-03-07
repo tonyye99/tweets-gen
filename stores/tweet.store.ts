@@ -51,7 +51,7 @@ export const useTweetStore = defineStore("tweet", {
         return `Write another ${this.model.mood} tweet about ${this.model.topic}
         ${this.model.isEmoji ? "and with emoji" : "and with no emoji"}`;
       }
-      return `Write another list of five ideas about ${this.model.topic} in a ${this.model.mood} tone. Each idea should not be longer than 150 characters.`;
+      return `Write another thread hook about ${this.model.topic} in ${this.model.mood} tone and mention the lists. Each list should be one short sentence and describe the idea.`;
     },
     randomPlaceholder(): string {
       return this.topicPlaceHolders[
@@ -59,7 +59,8 @@ export const useTweetStore = defineStore("tweet", {
       ];
     },
     formattedThread(): string[] {
-      return this.thread.split("\n");
+      // filter empty lines and empty spaces
+      return this.thread.split("\n").filter((line) => line.trim());
     },
   },
   actions: {
@@ -80,6 +81,9 @@ export const useTweetStore = defineStore("tweet", {
     },
     removeLastMessage() {
       this.messages.pop();
+    },
+    removeAllMessages() {
+      this.messages = [];
     }
   },
 });

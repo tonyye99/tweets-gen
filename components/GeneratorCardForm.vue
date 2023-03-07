@@ -64,6 +64,7 @@ const handleGenerate = () => {
 
     if (error.value) {
       console.log(error.value)
+      tweetStore.removeAllMessages()
       message.error('Something went wrong, please try again later')
     }
   })

@@ -12,15 +12,13 @@ const active = computed({
 
 <template>
   <div>
-  <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900">
-    <div class="container flex flex-wrap items-center justify-between mx-auto">
-      <a href="https://flowbite.com/" class="flex items-center">
-        <img src="https://flowbite.com/docs/images/logo.svg" class="h-6 mr-3 sm:h-9" alt="Flowbite Logo" />
-          <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">TweetsGen</span>
-        </a>
+    <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900">
+      <div class="container flex flex-wrap items-center justify-between mx-auto">
+        <nuxt-link to="/" class="flex items-center">
+          <img src="~/assets/logo.png" class="h-10 mt-1" alt="TweetsGen Logo" />
+        </nuxt-link>
         <div class="" id="navbar-default">
-          <ul
-            class="flex flex-col p-2 bg-white dark:bg-gray-900">
+          <ul class="flex flex-col p-2 bg-white dark:bg-gray-900">
             <li>
               <n-switch v-model:value="active" size="large" class="">
                 <template #checked-icon>

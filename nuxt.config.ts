@@ -7,7 +7,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: "Tweet GPT",
+      title: "TweetsGen",
       link: [
         {
           rel: "preconnect",

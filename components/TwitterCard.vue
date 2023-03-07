@@ -56,10 +56,9 @@ const shareTweet = () => {
   window.open(url, '_blank')
 }
 
-// scroll to thread when it's ready
 watch(loading, (val) => {
   if (val === false) {
-    thread.value.scrollIntoView({ behavior: 'smooth' })
+    thread.value?.scrollIntoView({ behavior: 'smooth' })
   }
 })
 </script>
@@ -111,8 +110,8 @@ watch(loading, (val) => {
               {{ tweet }}
             </li>
           </ul>
-          <div ref="thread"></div>
         </div>
+        <div ref="thread"></div>
         <template #description>
           <span class="text-center text-lg text-black font-bold">Generating...</span>
         </template>
