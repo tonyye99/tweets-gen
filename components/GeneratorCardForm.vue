@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { useGtm } from '@gtm-support/vue-gtm';
 import { FormInst, useMessage } from 'naive-ui'
 import { storeToRefs } from 'pinia';
 
 const message = useMessage()
 const tweetStore = useTweetStore()
+const gtm = useGtm()
 const { model, loading, size } = storeToRefs(tweetStore)
 const formRef = ref<FormInst | null>(null)
 
@@ -13,7 +15,11 @@ const handleGenerate = () => {
       message.error('Please fill in the required fields')
       return
     }
-
+    gtm?.trackEvent({
+      event: 'GenerateTweet',
+      label: tweetStore.contentType,
+      value: model.value.topic,
+    })
     tweetStore.setLoading(true)
 
     if (tweetStore.messages.length > 0) {

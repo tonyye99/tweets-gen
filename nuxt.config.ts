@@ -125,7 +125,7 @@ export default defineNuxtConfig({
     openaiApiKey: process.env.OPENAI_API_KEY,
     public: {
       isProduction: isProduction,
-      google_analytics_id: process.env.GOOGLE_TAG_MANAGER_ID,
+      google_tag_manager_id: process.env.GOOGLE_TAG_MANAGER_ID,
     },
   },
 });

@@ -1,21 +1,3 @@
-<script setup lang="ts">
-import { useGtag } from "vue-gtag-next";
-
-const { pageview } = useGtag();
-
-const track = () => {
-  pageview({
-    page_title: "Home",
-    page_location: window.location.href,
-    page_path: window.location.pathname,
-  });
-};
-
-onMounted(() => {
-  track();
-});
-</script>
-
 <template>
   <div class="flex flex-col items-center justify-center">
     <Hero />

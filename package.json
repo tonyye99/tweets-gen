@@ -22,6 +22,7 @@
     "vue-gtag-next": "^1.14.0"
   },
   "dependencies": {
+    "@gtm-support/vue-gtm": "^2.0.0",
     "@pinia/nuxt": "^0.4.7",
     "@types/request-ip": "^0.0.37",
     "@upstash/ratelimit": "^0.3.9",
