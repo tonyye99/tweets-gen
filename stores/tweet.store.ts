@@ -56,12 +56,6 @@ export const useTweetStore = defineStore("tweet", {
       return this.topicPlaceHolders[
         Math.floor(Math.random() * this.topicPlaceHolders.length)
       ];
-    },
-    formattedTweet(): string {
-      return this.tweet
-        .trim()
-        .replace(/(\r\n|\n|\r)/gm, " ")
-        .replace(/ +(?= )/g, "");
     }
   },
   actions: {
