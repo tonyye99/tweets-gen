@@ -42,26 +42,27 @@ export const useTweetStore = defineStore("tweet", {
   getters: {
     systemContent(): string {
       if (this.contentType === "tweet") {
-        return `Act as a professional content creator on Twitter. Your task is to write a tweet about a current event or topic of your choice. Your tweet should be no more than 150 characters, and it should be engaging and thought-provoking.`;
+        return `You are a viral content creator on Twitter. Your task is to write a tweet.`;
       }
-      return `Act as a professional content creator on Twitter. Your task is to generate a thread about a current event or topic of your choice. Your thread should be engaging and thought-provoking.`;
+      return `You are a viral content creator on Twitter. Your task is to generate a thread starter. Your thread should be engaging and thought-provoking.`;
     },
     userContent(): string {
       if (this.contentType === "tweet") {
-        return `Write another ${this.model.mood} tweet about ${this.model.topic}
-        ${this.model.isEmoji ? "and with emoji" : "and with no emoji"}`;
+        return `Write another 150 characters ${this.model.mood} trending tweet about ${this.model.topic} ${this.model.isEmoji ? "and with emoji" : "and with no emoji"}. The tweet should include lists and line break if necessary and also include a brief introduction. Your tweet should be limited to 150 characters.`;
       }
-      return `Write another list of five ideas to add to your thread about ${this.model.topic} in a ${this.model.mood} tone. Each idea should be no more than 120 characters.`;
+      return `Write another 150 characters tweet to start a ${this.model.mood} trending thread about ${this.model.topic} ${this.model.isEmoji ? "and with emoji" : "and with no emoji"}. At the end of tweet one of the 🧵 or 👇 emoji should be included. Your tweet should be limited to 150 characters. `;
     },
     randomPlaceholder(): string {
       return this.topicPlaceHolders[
         Math.floor(Math.random() * this.topicPlaceHolders.length)
       ];
     },
-    formattedThread(): string[] {
-      // filter empty lines and empty spaces
-      return this.thread.split("\n").filter((line) => line.trim());
-    },
+    formattedTweet(): string {
+      return this.tweet
+        .trim()
+        .replace(/(\r\n|\n|\r)/gm, " ")
+        .replace(/ +(?= )/g, "");
+    }
   },
   actions: {
     setTweet(content: string) {
@@ -84,6 +85,6 @@ export const useTweetStore = defineStore("tweet", {
     },
     removeAllMessages() {
       this.messages = [];
-    }
+    },
   },
 });

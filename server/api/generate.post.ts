@@ -4,7 +4,7 @@ import redis from "~/utils/redis";
 
 const ratelimit = new Ratelimit({
   redis: redis,
-  limiter: Ratelimit.fixedWindow(15, "1 m"),
+  limiter: Ratelimit.fixedWindow(10, "1 m"),
   analytics: true,
 });
 
@@ -25,8 +25,8 @@ export default defineEventHandler(async (event) => {
     method: "POST",
     body: JSON.stringify({
       model: "gpt-3.5-turbo",
-      max_tokens: 1024,
-      temperature: 0.4,
+      max_tokens: 280,
+      temperature: 0.1,
       messages: body,
     }),
     headers: {

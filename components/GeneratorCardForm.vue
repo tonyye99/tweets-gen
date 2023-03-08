@@ -59,11 +59,11 @@ const handleGenerate = () => {
         role: 'assistant',
         content: data.value?.content,
       })
-      if (tweetStore.contentType === 'thread') {
-        tweetStore.setThread(data.value?.content)
-        message.success('Your thread is ready!')
-        return
-      }
+      // if (tweetStore.contentType === 'thread') {
+      //   tweetStore.setThread(data.value?.content)
+      //   message.success('Your thread is ready!')
+      //   return
+      // }
       tweetStore.setTweet(data.value?.content)
       message.success('Your tweet is ready!')
     }
@@ -88,7 +88,7 @@ const handleGenerate = () => {
         <n-form-item-gi :span="24" label="Tone">
           <n-select v-model:value="model.mood" :options="tweetStore.toneOptions" />
         </n-form-item-gi>
-        <n-form-item-gi v-if="tweetStore.contentType === 'tweet'" :span="24" label="Additional">
+        <n-form-item-gi :span="24" label="Additional">
           <n-checkbox v-model:checked="model.isEmoji">
             Emoji
           </n-checkbox>

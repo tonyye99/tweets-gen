@@ -9,6 +9,10 @@ const tweetStore = useTweetStore()
 
 const tweet = computed(() => tweetStore.tweet)
 
+const formattedTweet = computed(() => {
+  return tweetStore.tweet.replace(/"/g, '').replace(/(\r\n|\n|\r)/gm, '<br>')
+})
+
 const loading = computed(() => tweetStore.loading)
 
 const thread = ref(null)
@@ -67,13 +71,12 @@ watch(loading, (val) => {
   <n-card class="bg-gradient-to-r from-blue-300 to-blue-400 max-h-[30rem] overflow-auto">
     <div class="flex items-center justify-center h-full">
       <n-spin :show="loading">
-        <div v-if="tweetStore.contentType === 'tweet'"
-          class="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-800 p-4 rounded-xl border w-full ">
+        <div class="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-800 p-4 rounded-xl border w-full ">
           <div class="flex justify-between">
             <div class="flex items-center">
               <n-avatar round :size="48">A</n-avatar>
               <div class="ml-1.5 text-sm leading-tight">
-                <span class="text-black dark:text-white font-bold block ">Annonymous</span>
+                <span class="text-black dark:text-white font-bold block ">Anonymous</span>
                 <span class="text-gray-500 dark:text-gray-400 font-normal block">@anon</span>
               </div>
             </div>
@@ -86,7 +89,7 @@ watch(loading, (val) => {
             </n-button>
           </div>
           <p class="text-black dark:text-white block text-xl leading-snug mt-3">
-            {{ tweet }}
+            <span v-html="formattedTweet"></span>
           </p>
           <p class="text-gray-500 dark:text-gray-400 text-base py-1 my-0.5">{{ today }}</p>
           <div class="border-gray-200 border border-b-0 my-1"></div>
@@ -99,18 +102,18 @@ watch(loading, (val) => {
             </div>
           </div>
         </div>
-        <div v-if="tweetStore.contentType === 'thread'">
-          <div v-if="!tweetStore.thread"
-            class="overflow-hidden bg-white dark:bg-gray-800 dark:text-white px-4 py-4 shadow sm:rounded-md sm:px-6">
-            Thread idea will be shown here. Remember to humanize your thread because robot tweets are boring 😉.
-          </div>
-          <ul v-else role="list" class="space-y-3">
-            <li v-for="(tweet, idx) in tweetStore.formattedThread" :key="idx"
-              class="overflow-hidden bg-white dark:bg-gray-800 dark:text-white px-4 py-4 shadow sm:rounded-md sm:px-6">
-              {{ tweet }}
-            </li>
-          </ul>
-        </div>
+        <!-- <div v-if="tweetStore.contentType === 'thread'">
+              <div v-if="!tweetStore.thread"
+                class="overflow-hidden bg-white dark:bg-gray-800 dark:text-white px-4 py-4 shadow sm:rounded-md sm:px-6">
+                Thread idea will be shown here. Remember to humanize your thread because robot tweets are boring 😉.
+              </div>
+              <ul v-else role="list" class="space-y-3">
+                <li v-for="(tweet, idx) in tweetStore.formattedThread" :key="idx"
+                  class="overflow-hidden bg-white dark:bg-gray-800 dark:text-white px-4 py-4 shadow sm:rounded-md sm:px-6">
+                  {{ tweet }}
+                </li>
+              </ul>
+            </div> -->
         <div ref="thread"></div>
         <template #description>
           <span class="text-center text-lg text-black font-bold">Generating...</span>
