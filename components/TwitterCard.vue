@@ -65,7 +65,7 @@ watch(loading, (val) => {
 
 <template>
   <n-card class="bg-gradient-to-r from-blue-300 to-blue-400 max-h-[30rem] overflow-auto">
-    <div class="flex items-center justify-center h-full">
+    <div ref="thread" class="flex items-center justify-center h-full">
       <n-spin :show="loading">
         <div class="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-800 p-4 rounded-xl border w-full ">
           <div class="flex justify-between">
@@ -110,7 +110,6 @@ watch(loading, (val) => {
                 </li>
               </ul>
             </div> -->
-        <div ref="thread"></div>
         <template #description>
           <span class="text-center text-lg text-black font-bold">Generating...</span>
         </template>
