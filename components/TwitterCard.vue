@@ -9,10 +9,6 @@ const tweetStore = useTweetStore()
 
 const tweet = computed(() => tweetStore.tweet)
 
-const formattedTweet = computed(() => {
-  return tweetStore.tweet.replace(/"/g, '').replace(/(\r\n|\n|\r)/gm, '<br>')
-})
-
 const loading = computed(() => tweetStore.loading)
 
 const thread = ref(null)
@@ -89,7 +85,7 @@ watch(loading, (val) => {
             </n-button>
           </div>
           <p class="text-black dark:text-white block text-xl leading-snug mt-3">
-            <span v-html="formattedTweet"></span>
+            <span v-html="tweetStore.formattedTweet"></span>
           </p>
           <p class="text-gray-500 dark:text-gray-400 text-base py-1 my-0.5">{{ today }}</p>
           <div class="border-gray-200 border border-b-0 my-1"></div>

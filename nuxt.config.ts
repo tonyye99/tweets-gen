@@ -17,7 +17,7 @@ export default defineNuxtConfig({
         {
           hid: "description",
           name: "description",
-          content: "Generate tweets and threads with AI",
+          content: "TweetGen is a free tool that allows you to generate the best human-like tweets and threads ideas with AI",
         },
         {
           hid: "og:title",
@@ -27,7 +27,7 @@ export default defineNuxtConfig({
         {
           hid: "og:description",
           property: "og:description",
-          content: "Generate tweets and threads with AI",
+          content: "TweetGen is a free tool that allows you to generate the best human-like tweets and threads ideas with AI",
         },
         {
           hid: "og:image",

@@ -1,13 +1,14 @@
 export const useTweetStore = defineStore("tweet", {
   state: () => ({
-    tweet: `“Contemplating the order of the universe, one cannot help but wonder about the forces that govern it. What do you think keeps it all in balance?”`,
+    tweet: 'We can only see a short distance ahead, but we can see plenty there that needs to be done. - Alan Turing',
     thread: "",
     loading: false,
     contentType: "tweet" as "tweet" | "thread",
     model: {
       topic: null,
       mood: "professional",
-      isEmoji: false,
+      isEmoji: "with no Emojis",
+      isHashTags: "and with no HashTags",
     },
     size: "medium" as "small" | "medium" | "large",
     topicPlaceHolders: [
@@ -42,21 +43,30 @@ export const useTweetStore = defineStore("tweet", {
   getters: {
     systemContent(): string {
       if (this.contentType === "tweet") {
-        return `You are a viral content creator on Twitter. Your task is to write a tweet.`;
+        return `Act as a content creator on Twitter. Your task is to write a tweet. Your tweet should be engaging and thought-provoking.`;
       }
-      return `You are a viral content creator on Twitter. Your task is to generate a thread starter. Your thread should be engaging and thought-provoking.`;
+      return `Act as a content creator on Twitter. Your task is to generate a thread starter. Your thread should be engaging and thought-provoking.`;
     },
     userContent(): string {
       if (this.contentType === "tweet") {
-        return `Write another 150 characters ${this.model.mood} trending tweet about ${this.model.topic} ${this.model.isEmoji ? "and with emoji" : "and with no emoji"}. The tweet should include lists and line break if necessary and also include a brief introduction. Your tweet should be limited to 150 characters.`;
+        return `Write another ${this.model.mood} trending tweet about ${this.model.topic} ${this.model.isEmoji} ${this.model.isHashTags}. The tweet should include lists with line breaks and a short intro but do not include more than 110 characters.`;
       }
-      return `Write another 150 characters tweet to start a ${this.model.mood} trending thread about ${this.model.topic} ${this.model.isEmoji ? "and with emoji" : "and with no emoji"}. At the end of tweet one of the 🧵 or 👇 emoji should be included. Your tweet should be limited to 150 characters. `;
+      return `Write another tweet to start a ${this.model.mood} trending thread about ${this.model.topic} ${this.model.isEmoji} ${this.model.isHashTags}. At the end of tweet one of the 🧵 or 👇 emoji should be included. `;
     },
     randomPlaceholder(): string {
       return this.topicPlaceHolders[
         Math.floor(Math.random() * this.topicPlaceHolders.length)
       ];
-    }
+    },
+    formattedTweet(): string {
+      const formattedTweet = this.tweet
+        .replace(/"/g, "")
+        .replace(/(\r\n|\n|\r)/gm, "<br>");
+      // if (!this.model.isHashTags) {
+      //   return formattedTweet.replace(/#(\w+)/g, "");
+      // }
+      return formattedTweet;
+    },
   },
   actions: {
     setTweet(content: string) {

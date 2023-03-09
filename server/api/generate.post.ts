@@ -8,6 +8,12 @@ const ratelimit = new Ratelimit({
   analytics: true,
 });
 
+const randomTemperature = () => {
+  const min = 0.1;
+  const max = 0.5;
+  return Math.random() * (max - min) + min;
+};
+
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
   const identifier = requestIp.getClientIp(event.node.req);
@@ -26,7 +32,7 @@ export default defineEventHandler(async (event) => {
     body: JSON.stringify({
       model: "gpt-3.5-turbo",
       max_tokens: 280,
-      temperature: 0.1,
+      temperature: randomTemperature(),
       messages: body,
     }),
     headers: {
