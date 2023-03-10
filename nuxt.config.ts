@@ -2,7 +2,7 @@ import { isProduction } from "std-env";
 
 export default defineNuxtConfig({
   nitro: {
-    preset: "netlify",
+    preset: "vercel",
   },
 
   app: {
