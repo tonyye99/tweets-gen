@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
     method: "POST",
     body: JSON.stringify({
       model: "gpt-3.5-turbo",
-      max_tokens: 280,
+      max_tokens: 1024,
       temperature: randomTemperature(),
       messages: body,
     }),
