@@ -62,7 +62,7 @@ const tweetFormatter = (tweet: string) => {
 
 watch(loading, (val) => {
   if (val === false) {
-    thread.value?.scrollIntoView({ behavior: "smooth" });
+    (thread.value! as HTMLDivElement).scrollIntoView({ behavior: "smooth" });
   }
 });
 </script>
@@ -93,7 +93,7 @@ watch(loading, (val) => {
             </n-button>
           </div>
           <p class="text-black dark:text-white block text-xl leading-snug mt-3">
-            <span v-html="tweetStore.formattedTweet"></span>
+            <span v-html="tweetFormatter(tweet)"></span>
           </p>
           <p class="text-gray-500 dark:text-gray-400 text-base py-1 my-0.5">
             {{ today }}
@@ -108,13 +108,19 @@ watch(loading, (val) => {
               <n-icon size="20" :color="action.color">
                 <component :is="action.icon" />
               </n-icon>
-              <span class="ml-1" :style="{ color: action.color }">{{
-                action.count
-              }}</span>
+              <span class="ml-1" :style="{ color: action.color }">
+                {{ action.count }}
+              </span>
             </div>
           </div>
         </div>
-        <div v-if="tweetStore.contentType === 'thread' && tweetStore.thread.length > 0 && !tweetStore.model.onlyHook">
+        <div
+          v-if="
+            tweetStore.contentType === 'thread' &&
+            tweetStore.thread.length > 0 &&
+            !tweetStore.model.onlyHook
+          "
+        >
           <ul role="list" class="space-y-3 mt-5">
             <li
               v-for="(tweet, idx) in tweetStore.thread"

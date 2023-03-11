@@ -3,6 +3,7 @@ export const useTweetStore = defineStore("tweet", {
     tweet:
       "We can only see a short distance ahead, but we can see plenty there that needs to be done. - Alan Turing",
     thread: [] as any[],
+    tempTweet: "",
     loading: false,
     contentType: "tweet" as "tweet" | "thread",
     model: {
@@ -29,7 +30,7 @@ export const useTweetStore = defineStore("tweet", {
       ],
     },
     toneOptions: [
-      { label: "Normal", value: "" },
+      { label: "Neutral", value: "" },
       { label: "Professional", value: "professional" },
       { label: "Funny", value: "funny" },
       { label: "Serious", value: "serious" },
@@ -57,12 +58,6 @@ export const useTweetStore = defineStore("tweet", {
       return this.topicPlaceHolders[
         Math.floor(Math.random() * this.topicPlaceHolders.length)
       ];
-    },
-    formattedTweet(): string {
-      const formattedTweet = this.tweet
-        .replace(/"/g, "")
-        .replace(/(\r\n|\n|\r)/gm, "<br>");
-      return formattedTweet;
     },
     modelInstructions(): any[] {
       if (this.contentType === "thread") {
@@ -228,9 +223,6 @@ export const useTweetStore = defineStore("tweet", {
     },
   },
   actions: {
-    setTweet(content: string) {
-      this.tweet = content;
-    },
     setThread(content: string) {
       const hook = content?.split("END\n\n")[0];
       const thread = content?.split("END\n\n").slice(1);
@@ -246,11 +238,20 @@ export const useTweetStore = defineStore("tweet", {
     setMessage(messages: any[]) {
       this.messages = messages;
     },
-    removeLastMessage() {
-      this.messages.pop();
-    },
     removeAllMessages() {
       this.messages = [];
     },
+    streamTweet(content: string) {
+      this.tweet += content;
+    },
+    streamThread(content: string) {
+      this.tempTweet += content;
+      this.setThread(this.tempTweet);
+    },
+    removeTweet() {
+      this.tweet = "";
+      this.tempTweet = "";
+      this.thread = [];
+    }
   },
 });

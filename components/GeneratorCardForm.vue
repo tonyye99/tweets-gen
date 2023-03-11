@@ -2,6 +2,8 @@
 import { useGtm } from "@gtm-support/vue-gtm";
 import { FormInst, useMessage } from "naive-ui";
 import { storeToRefs } from "pinia";
+// @ts-ignore
+import { SSE } from "sse";
 
 const message = useMessage();
 const tweetStore = useTweetStore();
@@ -20,7 +22,6 @@ const handleGenerate = () => {
       label: tweetStore.contentType,
       value: model.value.topic,
     });
-    tweetStore.setLoading(true);
 
     if (tweetStore.messages.length > 0) {
       tweetStore.addMessage({
@@ -37,45 +38,56 @@ const handleGenerate = () => {
       ]);
     }
 
-    const { data, pending, error } = await useFetch("/api/generate", {
+    tweetStore.setLoading(true);
+
+    const events = new SSE("api/stream", {
       method: "POST",
-      body: [...tweetStore.messages],
-      pick: ["status", "content"],
+      payload: JSON.stringify([...tweetStore.messages]),
     });
 
-    tweetStore.setLoading(pending.value);
+    events.addEventListener("open", function (e: any) {
+      tweetStore.removeTweet();
+      tweetStore.setLoading(false);
+    });
 
-    if (data.value?.status === 429) {
-      tweetStore.removeLastMessage();
-      message.error("Hold up! You have reached the limit. Please try again later.");
-      return;
-    }
+    events.addEventListener("message", function (e: any) {
+      if (e.data !== "[DONE]") {
+        const data = JSON.parse(e.data);
+        if (data.choices[0].delta.content) {
+          if (tweetStore.contentType === "thread") {
+            tweetStore.streamThread(data.choices[0].delta.content);
+            return;
+          }
+          tweetStore.streamTweet(data.choices[0].delta.content);
+        }
+      }
+      if (e.data === "[DONE]") {
+        message.success("Your tweet is ready!");
+        tweetStore.addMessage({
+          role: "assistant",
+          content: tweetStore.tweet,
+        });
+      }
+    });
 
-    if (data.value?.status === 200 && data.value?.content) {
-      tweetStore.addMessage({
-        role: "assistant",
-        content: data.value?.content,
-      });
-      if (tweetStore.contentType === "thread") {
-        tweetStore.setThread(data.value?.content);
-        message.success("Your thread is ready!");
+    events.stream();
+
+    events.addEventListener("error", function (e: any) {
+      tweetStore.removeAllMessages();
+      tweetStore.removeTweet();
+      tweetStore.setLoading(false);
+      if (e.data === "TOO_MANY_REQUEST") {
+        message.error("Too many requests, please try again later");
         return;
       }
-      tweetStore.setTweet(data.value?.content);
-      message.success("Your tweet is ready!");
-    }
-
-    if (error.value) {
-      console.log(error.value);
-      tweetStore.removeAllMessages();
-      message.error("Something went wrong, please try again later");
-    }
+      message.error(e.data || "Something went wrong, please try again later");
+    });
   });
 };
 
 const handleUpdateValue = () => {
-  tweetStore.removeAllMessages()
-}
+  tweetStore.removeAllMessages();
+};
 </script>
 
 <template>
