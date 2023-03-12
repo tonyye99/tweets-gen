@@ -5,25 +5,31 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint ."
   },
   "devDependencies": {
     "@nuxtjs/color-mode": "^3.2.0",
+    "@nuxtjs/eslint-config-typescript": "^12.0.0",
+    "@nuxtjs/eslint-module": "^4.0.2",
     "@vicons/fluent": "^0.12.0",
     "@vicons/ionicons4": "^0.12.0",
     "@vicons/material": "^0.12.0",
     "autoprefixer": "^10.4.13",
+    "eslint": "^8.36.0",
     "naive-ui": "^2.34.3",
     "nuxt": "^3.2.3",
     "postcss": "^8.4.21",
     "std-env": "^3.3.2",
     "tailwindcss": "^3.2.7",
+    "typescript": "^4.9.5",
     "vfonts": "^0.0.3",
     "vue-gtag-next": "^1.14.0"
   },
   "dependencies": {
     "@gtm-support/vue-gtm": "^2.0.0",
     "@netlify/functions": "^1.4.0",
+    "@nuxtjs/robots": "^3.0.0",
     "@pinia/nuxt": "^0.4.7",
     "@types/request-ip": "^0.0.37",
     "@upstash/ratelimit": "^0.3.9",

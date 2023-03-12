@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
+import { storeToRefs } from 'pinia'
 
 const tweetStore = useTweetStore()
 const { contentType } = storeToRefs(tweetStore)

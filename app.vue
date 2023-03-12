@@ -4,23 +4,23 @@ import { NConfigProvider, GlobalThemeOverrides, darkTheme, lightTheme } from 'na
 const themeOverrides: GlobalThemeOverrides = {
   common: {
     primaryColor: '#1DA1F2',
-    actionColor: '#1DA1F2',
+    actionColor: '#1DA1F2'
   },
   Input: {
     borderHover: '#1DA1F2',
-    borderFocus: '#1DA1F2',
+    borderFocus: '#1DA1F2'
   },
   Select: {
     peers: {
       InternalSelection: {
         borderHover: '#1DA1F2',
         borderActive: '#1DA1F2',
-        borderFocus: '#1DA1F2',
+        borderFocus: '#1DA1F2'
       }
     }
   },
   Switch: {
-    railColorActive: '#1DA1F2',
+    railColorActive: '#1DA1F2'
   },
   Button: {
     colorPrimary: '#1DA1F2',

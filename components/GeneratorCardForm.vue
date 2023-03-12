@@ -1,93 +1,93 @@
 <script setup lang="ts">
-import { useGtm } from "@gtm-support/vue-gtm";
-import { FormInst, useMessage } from "naive-ui";
-import { storeToRefs } from "pinia";
+import { useGtm } from '@gtm-support/vue-gtm'
+import { FormInst, useMessage } from 'naive-ui'
+import { storeToRefs } from 'pinia'
 // @ts-ignore
-import { SSE } from "sse";
+import { SSE } from 'sse'
 
-const message = useMessage();
-const tweetStore = useTweetStore();
-const gtm = useGtm();
-const { model, loading, size, contentType } = storeToRefs(tweetStore);
-const formRef = ref<FormInst | null>(null);
+const message = useMessage()
+const tweetStore = useTweetStore()
+const gtm = useGtm()
+const { model, loading, size, contentType } = storeToRefs(tweetStore)
+const formRef = ref<FormInst | null>(null)
 
 const handleGenerate = () => {
-  formRef.value?.validate(async (errors: any) => {
+  formRef.value?.validate((errors: any) => {
     if (errors) {
-      message.error("Please fill in the required fields");
-      return;
+      message.error('Please fill in the required fields')
+      return
     }
     gtm?.trackEvent({
-      event: "GenerateTweet",
+      event: 'GenerateTweet',
       label: tweetStore.contentType,
-      value: model.value.topic,
-    });
+      value: model.value.topic
+    })
 
     if (tweetStore.messages.length > 0) {
       tweetStore.addMessage({
-        role: "user",
-        content: tweetStore.userContent,
-      });
+        role: 'user',
+        content: tweetStore.userContent
+      })
     } else {
       tweetStore.setMessage([
         ...tweetStore.modelInstructions,
         {
-          role: "user",
-          content: tweetStore.userContent,
-        },
-      ]);
+          role: 'user',
+          content: tweetStore.userContent
+        }
+      ])
     }
 
-    tweetStore.setLoading(true);
+    tweetStore.setLoading(true)
 
-    const events = new SSE("api/stream", {
-      method: "POST",
-      payload: JSON.stringify([...tweetStore.messages]),
-    });
+    const events = new SSE('api/stream', {
+      method: 'POST',
+      payload: JSON.stringify([...tweetStore.messages])
+    })
 
-    events.addEventListener("open", function (e: any) {
-      tweetStore.removeTweet();
-      tweetStore.setLoading(false);
-    });
+    events.addEventListener('open', function (_e: any) {
+      tweetStore.removeTweet()
+      tweetStore.setLoading(false)
+    })
 
-    events.addEventListener("message", function (e: any) {
-      if (e.data !== "[DONE]") {
-        const data = JSON.parse(e.data);
+    events.addEventListener('message', function (e: any) {
+      if (e.data !== '[DONE]') {
+        const data = JSON.parse(e.data)
         if (data.choices[0].delta.content) {
-          if (tweetStore.contentType === "thread") {
-            tweetStore.streamThread(data.choices[0].delta.content);
-            return;
+          if (tweetStore.contentType === 'thread') {
+            tweetStore.streamThread(data.choices[0].delta.content)
+            return
           }
-          tweetStore.streamTweet(data.choices[0].delta.content);
+          tweetStore.streamTweet(data.choices[0].delta.content)
         }
       }
-      if (e.data === "[DONE]") {
-        message.success("Your tweet is ready!");
+      if (e.data === '[DONE]') {
+        message.success('Your tweet is ready!')
         tweetStore.addMessage({
-          role: "assistant",
-          content: tweetStore.tweet,
-        });
+          role: 'assistant',
+          content: tweetStore.tweet
+        })
       }
-    });
+    })
 
-    events.stream();
+    events.stream()
 
-    events.addEventListener("error", function (e: any) {
-      tweetStore.removeAllMessages();
-      tweetStore.removeTweet();
-      tweetStore.setLoading(false);
-      if (e.data === "TOO_MANY_REQUEST") {
-        message.error("Too many requests, please try again later");
-        return;
+    events.addEventListener('error', function (e: any) {
+      tweetStore.removeAllMessages()
+      tweetStore.removeTweet()
+      tweetStore.setLoading(false)
+      if (e.data === 'TOO_MANY_REQUEST') {
+        message.error('Too many requests, please try again later')
+        return
       }
-      message.error(e.data || "Something went wrong, please try again later");
-    });
-  });
-};
+      message.error(e.data || 'Something went wrong, please try again later')
+    })
+  })
+}
 
 const handleUpdateValue = () => {
-  tweetStore.removeAllMessages();
-};
+  tweetStore.removeAllMessages()
+}
 </script>
 
 <template>
@@ -113,16 +113,16 @@ const handleUpdateValue = () => {
         </n-form-item-gi>
         <n-form-item-gi :span="24" label="Additional">
           <n-checkbox
+            v-model:checked="model.isEmoji"
             checked-value="that contains emoticons"
             unchecked-value="with no emoticons"
-            v-model:checked="model.isEmoji"
           >
             Emoji
           </n-checkbox>
           <n-checkbox
+            v-model:checked="model.isHashTags"
             checked-value="that contains HashTags"
             unchecked-value="and no HashTags"
-            v-model:checked="model.isHashTags"
           >
             HashTags
           </n-checkbox>
