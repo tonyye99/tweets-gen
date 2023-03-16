@@ -130,7 +130,7 @@ export const useTweetStore = defineStore("tweet", {
   getters: {
     tweetUserContent(): string {
       if (this.model.tweet.isQuestion) {
-        return `Write another ${this.model.tweet.mood} question about ${this.model.tweet.topic} ${this.model.tweet.isEmoji} ${this.model.tweet.isHashTags}. Do not duplicate with the previous tweet. The content should be optimised for viral and should have at least 210 characters in length and should not exceed 230 characters in length.`
+        return `Write another ${this.model.tweet.mood} question about ${this.model.tweet.topic} ${this.model.tweet.isEmoji} ${this.model.tweet.isHashTags}. Do not duplicate with the previous tweet. Do not answer the question. The content should be optimised for viral and should have at least 210 characters in length and should not exceed 230 characters in length.`
       }
       return `Write another ${this.model.tweet.mood} tweet about ${this.model.tweet.topic} ${this.model.tweet.isEmoji} ${this.model.tweet.isHashTags}. Do not duplicate with the previous tweet. The content should be optimised for viral and should have at least 210 characters in length and should not exceed 230 characters in length.`
     },

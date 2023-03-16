@@ -21,20 +21,14 @@ const handleGenerate = () => {
       value: model.value.tweet.topic,
     })
 
-    if (tweetStore.messages.length > 0) {
-      tweetStore.addMessage({
+    tweetStore.removeAllMessages()
+    tweetStore.setMessage([
+      ...tweetStore.tweetModelInstructions,
+      {
         role: "user",
         content: tweetStore.tweetUserContent,
-      })
-    } else {
-      tweetStore.setMessage([
-        ...tweetStore.tweetModelInstructions,
-        {
-          role: "user",
-          content: tweetStore.tweetUserContent,
-        },
-      ])
-    }
+      },
+    ])
 
     try {
       const result = await tweetStore.generate()
