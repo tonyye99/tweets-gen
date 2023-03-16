@@ -1,4 +1,4 @@
-import { createGtm } from '@gtm-support/vue-gtm'
+import { createGtm } from "@gtm-support/vue-gtm"
 
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
@@ -11,7 +11,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       debug: !config.public.isProduction,
       loadScript: true,
       vueRouter: useRouter(),
-      trackOnNextTick: false
+      trackOnNextTick: false,
     })
   )
 })

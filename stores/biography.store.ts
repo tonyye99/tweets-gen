@@ -1,19 +1,23 @@
-export const useBioStore = defineStore('bio', {
+export const useBioStore = defineStore("bio", {
   state: () => ({
     loading: false,
     model: {
-      niche: 'Software Engineer'
+      niche: "Software Engineer",
     },
-    size: 'medium' as 'small' | 'medium' | 'large',
+    size: "medium" as "small" | "medium" | "large",
     rules: {
       niche: [
-        { required: true, message: 'Please input your niche!', trigger: 'blur' }
-      ]
-    }
+        {
+          required: true,
+          message: "Please input your niche!",
+          trigger: "blur",
+        },
+      ],
+    },
   }),
   actions: {
-    setLoading (loading: boolean) {
+    setLoading(loading: boolean) {
       this.loading = loading
-    }
-  }
+    },
+  },
 })

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia"
-import { FormInst, useMessage } from "naive-ui"
 import { useGtm } from "@gtm-support/vue-gtm"
+import { FormInst, useMessage } from "naive-ui"
+import { storeToRefs } from "pinia"
 
 const tweetStore = useTweetStore()
 const message = useMessage()
@@ -16,22 +16,22 @@ const handleGenerate = () => {
       return
     }
     gtm?.trackEvent({
-      event: "GenerateTwitterBio",
+      event: "GenerateTweet",
       label: tweetStore.contentType,
-      value: model.value.bio.niche,
+      value: model.value.tweet.topic,
     })
 
     if (tweetStore.messages.length > 0) {
       tweetStore.addMessage({
         role: "user",
-        content: tweetStore.bioUserContent,
+        content: tweetStore.tweetUserContent,
       })
     } else {
       tweetStore.setMessage([
-        ...tweetStore.bioModelInstructions,
+        ...tweetStore.tweetModelInstructions,
         {
           role: "user",
-          content: tweetStore.bioUserContent,
+          content: tweetStore.tweetUserContent,
         },
       ])
     }
@@ -39,7 +39,7 @@ const handleGenerate = () => {
     try {
       const result = await tweetStore.generate()
       if (result) {
-        message.success("Your twitter bio is ready!")
+        message.success("Your tweet is ready!")
       }
     } catch (e: any) {
       message.error(e.message)
@@ -52,37 +52,43 @@ const handleGenerate = () => {
   <div>
     <n-form
       ref="formRef"
-      :model="model.bio"
+      :model="model.tweet"
       :disabled="loading"
-      :rules="tweetStore.validations.bio"
+      :rules="tweetStore.validations.tweet"
       :size="size"
       label-placement="top"
       class="mt-5"
     >
       <n-grid responsive="screen">
-        <n-form-item-gi :span="24" label="Niche" path="niche">
-          <n-select
-            v-model:value="model.bio.niche"
-            placeholder="Select your niche (Input and enter to create a new one)"
-            filterable
-            multiple
-            tag
-            :options="model.bio.nicheOptions"
+        <n-form-item-gi :span="24" label="Topic" path="topic">
+          <n-input
+            v-model:value="model.tweet.topic"
+            :placeholder="tweetStore.randomPlaceholder"
           />
         </n-form-item-gi>
-        <n-form-item-gi :span="24" label="Your Goal" path="goal">
-          <n-input
-            v-model:value="model.bio.goal"
-            placeholder="Enter your goal, e.g. 'To help people start their own business'"
+        <n-form-item-gi :span="24" label="Tone">
+          <n-select
+            v-model:value="model.tweet.mood"
+            :options="tweetStore.toneOptions"
           />
         </n-form-item-gi>
         <n-form-item-gi :span="24" label="Additional">
           <n-checkbox
-            v-model:checked="model.bio.emojis"
+            v-model:checked="model.tweet.isEmoji"
             checked-value="that contains emoticons"
             unchecked-value="with no emoticons"
           >
             Emoji
+          </n-checkbox>
+          <n-checkbox
+            v-model:checked="model.tweet.isHashTags"
+            checked-value="that contains HashTags"
+            unchecked-value="and no HashTags"
+          >
+            HashTags
+          </n-checkbox>
+          <n-checkbox v-model:checked="model.tweet.isQuestion">
+            Question
           </n-checkbox>
         </n-form-item-gi>
         <n-form-item-gi></n-form-item-gi>
@@ -93,12 +99,10 @@ const handleGenerate = () => {
             class="bg-twitter-blue"
             @click="handleGenerate"
           >
-            Generate Bio
+            Generate Tweet
           </n-button>
         </n-gi>
       </n-grid>
     </n-form>
   </div>
 </template>
-
-<style scoped></style>
