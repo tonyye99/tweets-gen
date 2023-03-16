@@ -9,6 +9,10 @@ const gtm = useGtm()
 const { model, loading, size } = storeToRefs(tweetStore)
 const formRef = ref<FormInst | null>(null)
 
+const removeMessages = () => {
+  tweetStore.removeAllMessages()
+}
+
 const handleGenerate = () => {
   formRef.value?.validate(async (errors: any) => {
     if (errors) {
@@ -21,14 +25,20 @@ const handleGenerate = () => {
       value: model.value.tweet.topic,
     })
 
-    tweetStore.removeAllMessages()
-    tweetStore.setMessage([
-      ...tweetStore.tweetModelInstructions,
-      {
+    if (tweetStore.messages.length > 0) {
+      tweetStore.addMessage({
         role: "user",
         content: tweetStore.tweetUserContent,
-      },
-    ])
+      })
+    } else {
+      tweetStore.setMessage([
+        ...tweetStore.tweetModelInstructions,
+        {
+          role: "user",
+          content: tweetStore.tweetUserContent,
+        },
+      ])
+    }
 
     try {
       const result = await tweetStore.generate()
@@ -81,7 +91,10 @@ const handleGenerate = () => {
           >
             HashTags
           </n-checkbox>
-          <n-checkbox v-model:checked="model.tweet.isQuestion">
+          <n-checkbox
+            v-model:checked="model.tweet.isQuestion"
+            @click="removeMessages"
+          >
             Question
           </n-checkbox>
         </n-form-item-gi>
