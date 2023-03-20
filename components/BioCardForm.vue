@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia"
-import { FormInst, useMessage } from "naive-ui"
-import { useGtm } from "@gtm-support/vue-gtm"
+import { storeToRefs } from 'pinia'
+import { FormInst, useMessage } from 'naive-ui'
+import { useGtm } from '@gtm-support/vue-gtm'
 
 const tweetStore = useTweetStore()
 const message = useMessage()
@@ -12,34 +12,34 @@ const formRef = ref<FormInst | null>(null)
 const handleGenerate = () => {
   formRef.value?.validate(async (errors: any) => {
     if (errors) {
-      message.error("Please fill in the required fields")
+      message.error('Please fill in the required fields')
       return
     }
     gtm?.trackEvent({
-      event: "GenerateTwitterBio",
+      event: 'GenerateTwitterBio',
       label: tweetStore.contentType,
-      value: model.value.bio.niche,
+      value: model.value.bio.niche
     })
 
     if (tweetStore.messages.length > 0) {
       tweetStore.addMessage({
-        role: "user",
-        content: tweetStore.bioUserContent,
+        role: 'user',
+        content: tweetStore.bioUserContent
       })
     } else {
       tweetStore.setMessage([
         ...tweetStore.bioModelInstructions,
         {
-          role: "user",
-          content: tweetStore.bioUserContent,
-        },
+          role: 'user',
+          content: tweetStore.bioUserContent
+        }
       ])
     }
 
     try {
       const result = await tweetStore.generate()
       if (result) {
-        message.success("Your twitter bio is ready!")
+        message.success('Your twitter bio is ready!')
       }
     } catch (e: any) {
       message.error(e.message)
@@ -85,7 +85,7 @@ const handleGenerate = () => {
             Emoji
           </n-checkbox>
         </n-form-item-gi>
-        <n-form-item-gi></n-form-item-gi>
+        <n-form-item-gi />
         <n-gi :span="24">
           <n-button
             type="primary"

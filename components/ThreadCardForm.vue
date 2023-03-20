@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia"
-import { FormInst, useMessage } from "naive-ui"
-import { useGtm } from "@gtm-support/vue-gtm"
+import { storeToRefs } from 'pinia'
+import { FormInst, useMessage } from 'naive-ui'
+import { useGtm } from '@gtm-support/vue-gtm'
 
 const tweetStore = useTweetStore()
 const message = useMessage()
@@ -16,35 +16,35 @@ const handleUpdateValue = () => {
 const handleGenerate = () => {
   formRef.value?.validate(async (errors: any) => {
     if (errors) {
-      message.error("Please fill in the required fields")
+      message.error('Please fill in the required fields')
       return
     }
 
     gtm?.trackEvent({
-      event: "GenerateThread",
+      event: 'GenerateThread',
       label: tweetStore.contentType,
-      value: model.value.thread.topic,
+      value: model.value.thread.topic
     })
 
     if (tweetStore.messages.length > 0) {
       tweetStore.addMessage({
-        role: "user",
-        content: tweetStore.threadUserContent,
+        role: 'user',
+        content: tweetStore.threadUserContent
       })
     } else {
       tweetStore.setMessage([
         ...tweetStore.threadModelInstructions,
         {
-          role: "user",
-          content: tweetStore.threadUserContent,
-        },
+          role: 'user',
+          content: tweetStore.threadUserContent
+        }
       ])
     }
 
     try {
       const result = await tweetStore.generate()
       if (result) {
-        message.success("Your thread is ready!")
+        message.success('Your thread is ready!')
       }
     } catch (e: any) {
       message.error(e.message)

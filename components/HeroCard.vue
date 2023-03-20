@@ -17,8 +17,7 @@
             class="font-bold animate-text bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-transparent"
             href="https://platform.openai.com/docs/guides/chat"
             target="_blank"
-            >gpt-3.5-turbo model</a
-          >.
+          >gpt-3.5-turbo model</a>.
         </p>
       </div>
     </div>

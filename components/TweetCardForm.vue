@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useGtm } from "@gtm-support/vue-gtm"
-import { FormInst, useMessage } from "naive-ui"
-import { storeToRefs } from "pinia"
+import { useGtm } from '@gtm-support/vue-gtm'
+import { FormInst, useMessage } from 'naive-ui'
+import { storeToRefs } from 'pinia'
 
 const tweetStore = useTweetStore()
 const message = useMessage()
@@ -16,34 +16,34 @@ const removeMessages = () => {
 const handleGenerate = () => {
   formRef.value?.validate(async (errors: any) => {
     if (errors) {
-      message.error("Please fill in the required fields")
+      message.error('Please fill in the required fields')
       return
     }
     gtm?.trackEvent({
-      event: "GenerateTweet",
+      event: 'GenerateTweet',
       label: tweetStore.contentType,
-      value: model.value.tweet.topic,
+      value: model.value.tweet.topic
     })
 
     if (tweetStore.messages.length > 0) {
       tweetStore.addMessage({
-        role: "user",
-        content: tweetStore.tweetUserContent,
+        role: 'user',
+        content: tweetStore.tweetUserContent
       })
     } else {
       tweetStore.setMessage([
         ...tweetStore.tweetModelInstructions,
         {
-          role: "user",
-          content: tweetStore.tweetUserContent,
-        },
+          role: 'user',
+          content: tweetStore.tweetUserContent
+        }
       ])
     }
 
     try {
       const result = await tweetStore.generate()
       if (result) {
-        message.success("Your tweet is ready!")
+        message.success('Your tweet is ready!')
       }
     } catch (e: any) {
       message.error(e.message)
@@ -98,7 +98,7 @@ const handleGenerate = () => {
             Question
           </n-checkbox>
         </n-form-item-gi>
-        <n-form-item-gi></n-form-item-gi>
+        <n-form-item-gi />
         <n-gi :span="24">
           <n-button
             type="primary"
