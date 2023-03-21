@@ -137,7 +137,7 @@ watch(loading, (val) => {
           </div>
         </template>
         <template v-if="tweetStore.contentType === 'bio'">
-          <BioCard />
+          <PublicCardResultBioView />
         </template>
         <template #description>
           <span class="text-center text-lg text-black font-bold">

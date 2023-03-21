@@ -57,7 +57,6 @@ const signIn = () => {
         return
       }
       if (data.user) {
-        message.success('Signed in successfully!')
         router.push('/ai-contents/')
         return
       }
@@ -77,7 +76,7 @@ const googleSignIn = async (provider: 'google' | 'facebook' | 'twitter') => {
     const { error } = await client.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: 'http://127.0.0.1:3000/callback/'
+        redirectTo: 'http://localhost:3000/callback/'
       }
     })
     if (error) {
@@ -120,7 +119,7 @@ const googleSignIn = async (provider: 'google' | 'facebook' | 'twitter') => {
               <n-input v-model:value="model.signIn.password" type="password" placeholder="elonmusk123" />
             </n-form-item>
             <div class="flex justify-end">
-              <nuxt-link to="reset-password" class="hover:text-twitter-blue">
+              <nuxt-link to="forgot-password" class="hover:text-twitter-blue">
                 Forgot Password?
               </nuxt-link>
             </div>

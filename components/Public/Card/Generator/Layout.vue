@@ -12,23 +12,18 @@ watch(contentType, (val) => {
 
 const contentComponents = computed(() => {
   if (contentType.value === 'tweet') {
-    return defineAsyncComponent(() => import('./TweetCardForm.vue'))
+    return defineAsyncComponent(() => import('../Generator/TweetForm.vue'))
   } else if (contentType.value === 'thread') {
-    return defineAsyncComponent(() => import('./ThreadCardForm.vue'))
+    return defineAsyncComponent(() => import('../Generator/ThreadForm.vue'))
   } else if (contentType.value === 'bio') {
-    return defineAsyncComponent(() => import('./BioCardForm.vue'))
+    return defineAsyncComponent(() => import('../Generator/BioForm.vue'))
   }
 })
 </script>
 
 <template>
   <n-card>
-    <n-radio-group
-      v-model:value="contentType"
-      name="left-size"
-      class="mt-5"
-      :disabled="tweetStore.loading"
-    >
+    <n-radio-group v-model:value="contentType" name="left-size" class="mt-5" :disabled="tweetStore.loading">
       <n-radio-button value="tweet">
         Tweet
       </n-radio-button>

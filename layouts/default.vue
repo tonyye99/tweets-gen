@@ -29,8 +29,10 @@ const themeOverrides: GlobalThemeOverrides = {
   },
   Button: {
     colorPrimary: '#1DA1F2',
-    colorHoverPrimary: '#1DA1F2',
-    colorFocusPrimary: '#1DA1F2',
+    colorHoverPrimary: '#118BD7',
+    colorFocusPrimary: '#118BD7',
+    colorPressedPrimary: '#118BD7',
+    borderPressedPrimary: '#1DA1F2',
     borderFocusPrimary: '#1DA1F2',
     borderHoverPrimary: '#1DA1F2',
     textColor: '#FF0000'
@@ -51,7 +53,7 @@ const theme = computed(() => {
   <div>
     <ClientOnly>
       <n-config-provider :theme-overrides="themeOverrides" :theme="theme">
-        <SideBar />
+        <SidebarTheLayout />
       </n-config-provider>
     </ClientOnly>
   </div>

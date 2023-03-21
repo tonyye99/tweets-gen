@@ -3,6 +3,7 @@ export const useAuthStore = defineStore('auth', {
     loading: false,
     model: {
       signUp: {
+        username: '',
         email: '',
         password: '',
         confirmPassword: ''
@@ -11,8 +12,12 @@ export const useAuthStore = defineStore('auth', {
         email: '',
         password: ''
       },
-      reset: {
+      forgot: {
         email: ''
+      },
+      reset: {
+        newPassword: '',
+        confirmPassword: ''
       }
     },
     user: null as any

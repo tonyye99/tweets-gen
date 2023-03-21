@@ -7,37 +7,15 @@ definePageMeta({
 })
 
 const rules = {
-  newPassword: [
+  email: [
     {
       required: true,
-      message: 'Please enter your new password',
+      message: 'Please enter your email',
       trigger: 'blur'
     },
     {
-      min: 6,
-      message: 'Password must be at least 6 characters',
-      trigger: 'blur'
-    }
-  ],
-  confirmPassword: [
-    {
-      required: true,
-      message: 'Please confirm your new password',
-      trigger: 'blur'
-    },
-    {
-      min: 6,
-      message: 'Password must be at least 6 characters',
-      trigger: 'blur'
-    },
-    {
-      validator: (_rule: any, value: any, callback: any) => {
-        if (value !== model.value.reset.newPassword) {
-          callback(new Error('Passwords do not match'))
-        } else {
-          callback()
-        }
-      },
+      type: 'email',
+      message: 'Please enter a valid email',
       trigger: 'blur'
     }
   ]
@@ -48,7 +26,7 @@ const { model, loading } = storeToRefs(authStore)
 const resetForm = ref<FormInst | null>(null)
 const message = useMessage()
 
-const resetPassword = () => {
+const forgotPassword = () => {
   resetForm.value?.validate(async (errors: any) => {
     if (errors) {
       message.error('Please fill in the required fields')
@@ -60,15 +38,18 @@ const resetPassword = () => {
     const router = useRouter()
 
     try {
-      const { data, error } = await client.auth.updateUser({
-        password: model.value.reset.newPassword
-      })
+      const { data, error } = await client.auth.resetPasswordForEmail(
+        model.value.forgot.email,
+        {
+          redirectTo: 'http://localhost:3000/auth/reset-password'
+        }
+      )
       if (error) {
         message.error(error.message)
         return
       }
       if (data) {
-        message.success('Password reset successfully!')
+        message.success('Password reset email sent! Please check your inbox including spam folder.')
         router.push('/auth/sign-in')
       }
     } catch (e: any) {
@@ -87,7 +68,7 @@ const resetPassword = () => {
       <h2 class="mt-5 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
         Reset your password
         <p class="text-sm mt-3 font-light">
-          Enter your new password below
+          We will send you an email with a link to reset your password.
         </p>
       </h2>
       <p class="mt-2 text-center text-sm text-gray-600">
@@ -100,18 +81,15 @@ const resetPassword = () => {
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="shadow sm:rounded-lg">
         <n-card>
-          <n-form ref="resetForm" :disabled="loading" :model="model.reset" :rules="rules" size="large"
+          <n-form ref="resetForm" :disabled="loading" :model="model.forgot" :rules="rules" size="large"
             label-placement="top">
-            <n-form-item :span="12" label="New Password" path="newPassword">
-              <n-input v-model:value="model.reset.newPassword" type="password" />
-            </n-form-item>
-            <n-form-item :span="12" label="Confirm Password" path="confirmPassword">
-              <n-input v-model:value="model.reset.confirmPassword" type="password" />
+            <n-form-item :span="12" label="Email" path="email">
+              <n-input v-model:value="model.forgot.email" placeholder="elonmusk@gmail.com" />
             </n-form-item>
             <div class="mt-5">
               <n-button :loading="loading" icon-placement="left" type="primary"
                 class="flex w-full justify-center rounded-md py-2 px-3 text-sm font-semibold text-twitter-blue shadow-sm"
-                @click="resetPassword">
+                @click="forgotPassword">
                 Reset
               </n-button>
             </div>
@@ -121,3 +99,5 @@ const resetPassword = () => {
     </div>
   </div>
 </template>
+
+<style scoped></style>

@@ -17,6 +17,18 @@ const message = useMessage()
 const signupForm = ref<FormInst | null>(null)
 
 const rules = {
+  username: [
+    {
+      required: true,
+      message: 'Please enter your username',
+      trigger: 'blur'
+    },
+    {
+      min: 3,
+      message: 'Username must be at least 3 characters',
+      trigger: 'blur'
+    }
+  ],
   email: [
     {
       required: true,
@@ -86,7 +98,10 @@ const signUp = () => {
         email: model.value.signUp.email,
         password: model.value.signUp.password,
         options: {
-          emailRedirectTo: 'http://localhost:3000/callback/'
+          emailRedirectTo: 'http://localhost:3000/callback/',
+          data: {
+            username: model.value.signUp.username
+          }
         }
       })
       if (error) {
@@ -97,7 +112,7 @@ const signUp = () => {
         message.error('The email is already registered')
         return
       }
-      message.success('Account created successfully')
+      message.success('Account created successfully. Please check your email to verify your account.')
       router.push('/auth/sign-in')
     } catch (e: any) {
       message.error(e.message)
@@ -120,7 +135,7 @@ const signUp = () => {
       </h2>
       <p class="mt-2 text-center text-sm text-gray-600">
         Or
-        <nuxt-link to="/signin" class="font-medium text-twitter-blue hover:text-twitter-blue-dark">
+        <nuxt-link to="sign-in" class="font-medium text-twitter-blue hover:text-twitter-blue-dark">
           Already have an account?
         </nuxt-link>
       </p>
@@ -134,6 +149,9 @@ const signUp = () => {
             <n-form-item :span="12" label="Email" path="email">
               <n-input v-model:value="model.signUp.email" placeholder="Email" />
             </n-form-item>
+            <n-form-item :span="12" label="Username" path="username">
+              <n-input v-model:value="model.signUp.username" placeholder="Tony" />
+            </n-form-item>
             <n-form-item :span="12" label="Password" path="password">
               <n-input v-model:value="model.signUp.password" type="password" placeholder="Password" />
             </n-form-item>
@@ -141,8 +159,8 @@ const signUp = () => {
               <n-input v-model:value="model.signUp.confirmPassword" type="password" placeholder="Confirm your password" />
             </n-form-item>
             <div class="mt-5">
-              <n-button quaternary type="primary"
-                class="inline-flex w-full justify-center rounded-md bg-white dark:bg-naive-black py-2 px-4 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0"
+              <n-button :loading="loading" icon-placement="left" type="primary"
+                class="flex w-full justify-center rounded-md py-2 px-3 text-sm font-semibold text-twitter-blue shadow-sm"
                 @click="signUp">
                 Sign Up
               </n-button>

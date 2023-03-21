@@ -50,49 +50,26 @@ const handleGenerate = () => {
 
 <template>
   <div>
-    <n-form
-      ref="formRef"
-      :model="model.bio"
-      :disabled="loading"
-      :rules="tweetStore.validations.bio"
-      :size="size"
-      label-placement="top"
-      class="mt-5"
-    >
+    <n-form ref="formRef" :model="model.bio" :disabled="loading" :rules="tweetStore.validations.bio" :size="size"
+      label-placement="top" class="mt-5">
       <n-grid responsive="screen">
         <n-form-item-gi :span="24" label="Niche" path="niche">
-          <n-select
-            v-model:value="model.bio.niche"
-            placeholder="Select your niche (Input and enter to create a new one)"
-            filterable
-            multiple
-            tag
-            :options="model.bio.nicheOptions"
-          />
+          <n-select v-model:value="model.bio.niche" placeholder="Select your niche (Input and enter to create a new one)"
+            filterable multiple tag :options="model.bio.nicheOptions" />
         </n-form-item-gi>
         <n-form-item-gi :span="24" label="Your Goal" path="goal">
-          <n-input
-            v-model:value="model.bio.goal"
-            placeholder="Enter your goal, e.g. 'To help people start their own business'"
-          />
+          <n-input v-model:value="model.bio.goal"
+            placeholder="Enter your goal, e.g. 'To help people start their own business'" />
         </n-form-item-gi>
         <n-form-item-gi :span="24" label="Additional">
-          <n-checkbox
-            v-model:checked="model.bio.emojis"
-            checked-value="that contains emoticons"
-            unchecked-value="with no emoticons"
-          >
+          <n-checkbox v-model:checked="model.bio.emojis" checked-value="that contains emoticons"
+            unchecked-value="with no emoticons">
             Emoji
           </n-checkbox>
         </n-form-item-gi>
         <n-form-item-gi />
         <n-gi :span="24">
-          <n-button
-            type="primary"
-            :disabled="loading"
-            class="bg-twitter-blue"
-            @click="handleGenerate"
-          >
+          <n-button type="primary" round :disabled="loading" class="bg-twitter-blue" @click="handleGenerate">
             Generate Bio
           </n-button>
         </n-gi>
