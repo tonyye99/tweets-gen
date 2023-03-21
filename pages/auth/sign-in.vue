@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { GlassesOutline, Glasses } from '@vicons/ionicons5'
 import Facebook from '@vicons/fa/FacebookF'
 import Twitter from '@vicons/fa/Twitter'
 import Google from '@vicons/fa/Google'
@@ -89,6 +90,11 @@ const googleSignIn = async (provider: 'google' | 'facebook' | 'twitter') => {
     authStore.setLoading(false)
   }
 }
+
+onBeforeRouteLeave((_to, _from, next) => {
+  authStore.resetModel()
+  next()
+})
 </script>
 
 <template>
@@ -113,10 +119,18 @@ const googleSignIn = async (provider: 'google' | 'facebook' | 'twitter') => {
           <n-form ref="signInForm" :disabled="loading" :model="model.signIn" :rules="rules" size="large"
             label-placement="top">
             <n-form-item :span="12" label="Email" path="email">
-              <n-input v-model:value="model.signIn.email" placeholder="elonmusk@gmail.com" />
+              <n-input v-model:value="model.signIn.email" placeholder="elonmusk@gmail.com" @keyup.enter="signIn" />
             </n-form-item>
             <n-form-item :span="12" label="Password" path="password">
-              <n-input v-model:value="model.signIn.password" type="password" placeholder="elonmusk123" />
+              <n-input v-model:value="model.signIn.password" show-password-on="click" type="password"
+                placeholder="elonmusk123" @keyup.enter="signIn">
+                <template #password-visible-icon>
+                  <n-icon :size="16" :component="GlassesOutline" />
+                </template>
+                <template #password-invisible-icon>
+                  <n-icon :size="16" :component="Glasses" />
+                </template>
+              </n-input>
             </n-form-item>
             <div class="flex justify-end">
               <nuxt-link to="forgot-password" class="hover:text-twitter-blue">

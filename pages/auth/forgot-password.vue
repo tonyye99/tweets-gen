@@ -59,6 +59,11 @@ const forgotPassword = () => {
     }
   })
 }
+
+onBeforeRouteLeave((_to, _from, next) => {
+  authStore.resetModel()
+  next()
+})
 </script>
 
 <template>
@@ -84,7 +89,8 @@ const forgotPassword = () => {
           <n-form ref="resetForm" :disabled="loading" :model="model.forgot" :rules="rules" size="large"
             label-placement="top">
             <n-form-item :span="12" label="Email" path="email">
-              <n-input v-model:value="model.forgot.email" placeholder="elonmusk@gmail.com" />
+              <n-input v-model:value="model.forgot.email" placeholder="elonmusk@gmail.com"
+                @keyup.enter="forgotPassword" />
             </n-form-item>
             <div class="mt-5">
               <n-button :loading="loading" icon-placement="left" type="primary"

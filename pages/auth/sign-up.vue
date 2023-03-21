@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+import { GlassesOutline, Glasses } from '@vicons/ionicons5'
 import Facebook from '@vicons/fa/FacebookF'
 import Twitter from '@vicons/fa/Twitter'
 import Google from '@vicons/fa/Google'
@@ -121,6 +121,11 @@ const signUp = () => {
     }
   })
 }
+
+onBeforeRouteLeave((_to, _from, next) => {
+  authStore.resetModel()
+  next()
+})
 </script>
 
 <template>
@@ -147,16 +152,32 @@ const signUp = () => {
           <n-form ref="signupForm" :model="model.signUp" :rules="rules" :disabled="loading" size="large"
             label-placement="top">
             <n-form-item :span="12" label="Email" path="email">
-              <n-input v-model:value="model.signUp.email" placeholder="Email" />
+              <n-input v-model:value="model.signUp.email" placeholder="Email" @keyup.enter="signUp" />
             </n-form-item>
             <n-form-item :span="12" label="Username" path="username">
-              <n-input v-model:value="model.signUp.username" placeholder="Tony" />
+              <n-input v-model:value="model.signUp.username" placeholder="Tony" @keyup.enter="signUp" />
             </n-form-item>
             <n-form-item :span="12" label="Password" path="password">
-              <n-input v-model:value="model.signUp.password" type="password" placeholder="Password" />
+              <n-input v-model:value="model.signUp.password" show-password-on="click" type="password"
+                placeholder="Password" @keyup.enter="signUp">
+                <template #password-visible-icon>
+                  <n-icon :size="16" :component="GlassesOutline" />
+                </template>
+                <template #password-invisible-icon>
+                  <n-icon :size="16" :component="Glasses" />
+                </template>
+              </n-input>
             </n-form-item>
             <n-form-item :span="12" label="Confirm Password" path="confirmPassword">
-              <n-input v-model:value="model.signUp.confirmPassword" type="password" placeholder="Confirm your password" />
+              <n-input v-model:value="model.signUp.confirmPassword" show-password-on="click" type="password"
+                placeholder="Confirm your password" @keyup.enter="signUp">
+                <template #password-visible-icon>
+                  <n-icon :size="16" :component="GlassesOutline" />
+                </template>
+                <template #password-invisible-icon>
+                  <n-icon :size="16" :component="Glasses" />
+                </template>
+              </n-input>
             </n-form-item>
             <div class="mt-5">
               <n-button :loading="loading" icon-placement="left" type="primary"

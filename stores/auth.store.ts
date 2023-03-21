@@ -33,6 +33,27 @@ export const useAuthStore = defineStore('auth', {
     },
     setUser (user: any) {
       this.user = user
+    },
+    resetModel () {
+      this.model = {
+        signUp: {
+          username: '',
+          email: '',
+          password: '',
+          confirmPassword: ''
+        },
+        signIn: {
+          email: '',
+          password: ''
+        },
+        forgot: {
+          email: ''
+        },
+        reset: {
+          newPassword: '',
+          confirmPassword: ''
+        }
+      }
     }
   }
 })

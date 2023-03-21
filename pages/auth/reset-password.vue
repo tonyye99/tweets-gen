@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { FormInst, useMessage } from 'naive-ui'
 import { storeToRefs } from 'pinia'
+import { GlassesOutline, Glasses } from '@vicons/ionicons5'
 
 definePageMeta({
   layout: 'public'
@@ -78,6 +79,11 @@ const resetPassword = () => {
     }
   })
 }
+
+onBeforeRouteLeave((_to, _from, next) => {
+  authStore.resetModel()
+  next()
+})
 </script>
 
 <template>
@@ -103,10 +109,26 @@ const resetPassword = () => {
           <n-form ref="resetForm" :disabled="loading" :model="model.reset" :rules="rules" size="large"
             label-placement="top">
             <n-form-item :span="12" label="New Password" path="newPassword">
-              <n-input v-model:value="model.reset.newPassword" type="password" />
+              <n-input v-model:value="model.reset.newPassword" show-password-on="click" type="password"
+                placeholder="Bingo999" @keyup.enter="resetPassword">
+                <template #password-visible-icon>
+                  <n-icon :size="16" :component="GlassesOutline" />
+                </template>
+                <template #password-invisible-icon>
+                  <n-icon :size="16" :component="Glasses" />
+                </template>
+              </n-input>
             </n-form-item>
             <n-form-item :span="12" label="Confirm Password" path="confirmPassword">
-              <n-input v-model:value="model.reset.confirmPassword" type="password" />
+              <n-input v-model:value="model.reset.confirmPassword" show-password-on="click" type="password"
+                placeholder="Bingo999" @keyup.enter="resetPassword">
+                <template #password-visible-icon>
+                  <n-icon :size="16" :component="GlassesOutline" />
+                </template>
+                <template #password-invisible-icon>
+                  <n-icon :size="16" :component="Glasses" />
+                </template>
+              </n-input>
             </n-form-item>
             <div class="mt-5">
               <n-button :loading="loading" icon-placement="left" type="primary"
