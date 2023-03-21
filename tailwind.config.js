@@ -13,6 +13,7 @@ module.exports = {
     extend: {
       colors: {
         'twitter-blue': '#1DA1F2',
+        'twitter-blue-hover': '#118BD7',
         'naive-black': '#18181C',
         'naive-white': '#F5F5F5',
         'naive-dark': '#101014'
