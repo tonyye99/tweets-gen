@@ -1,51 +1,51 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { FormInst, useMessage } from 'naive-ui'
-import { useGtm } from '@gtm-support/vue-gtm'
+import { storeToRefs } from "pinia";
+import { FormInst, useMessage } from "naive-ui";
+import { useGtm } from "@gtm-support/vue-gtm";
 
-const tweetStore = useTweetStore()
-const message = useMessage()
-const gtm = useGtm()
-const { model, loading, size } = storeToRefs(tweetStore)
-const formRef = ref<FormInst | null>(null)
+const tweetStore = useTweetStore();
+const message = useMessage();
+const gtm = useGtm();
+const { model, loading, size } = storeToRefs(tweetStore);
+const formRef = ref<FormInst | null>(null);
 
 const handleGenerate = () => {
   formRef.value?.validate(async (errors: any) => {
     if (errors) {
-      message.error('Please fill in the required fields')
-      return
+      message.error("Please fill in the required fields");
+      return;
     }
     gtm?.trackEvent({
-      event: 'GenerateTwitterBio',
+      event: "GenerateTwitterBio",
       label: tweetStore.contentType,
-      value: model.value.bio.niche
-    })
+      value: model.value.bio.niche,
+    });
 
     if (tweetStore.messages.length > 0) {
       tweetStore.addMessage({
-        role: 'user',
-        content: tweetStore.bioUserContent
-      })
+        role: "user",
+        content: tweetStore.bioUserContent,
+      });
     } else {
       tweetStore.setMessage([
         ...tweetStore.bioModelInstructions,
         {
-          role: 'user',
-          content: tweetStore.bioUserContent
-        }
-      ])
+          role: "user",
+          content: tweetStore.bioUserContent,
+        },
+      ]);
     }
 
     try {
-      const result = await tweetStore.generate()
+      const result = await tweetStore.generate();
       if (result) {
-        message.success('Your twitter bio is ready!')
+        message.success("Your twitter bio is ready!");
       }
     } catch (e: any) {
-      message.error(e.message)
+      message.error(e.message);
     }
-  })
-}
+  });
+};
 </script>
 
 <template>
@@ -69,7 +69,7 @@ const handleGenerate = () => {
         </n-form-item-gi>
         <n-form-item-gi />
         <n-gi :span="24">
-          <n-button type="primary" round :disabled="loading" class="bg-twitter-blue" @click="handleGenerate">
+          <n-button type="primary" round :disabled="loading" @click="handleGenerate">
             Generate Bio
           </n-button>
         </n-gi>

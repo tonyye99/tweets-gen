@@ -5,13 +5,13 @@ const router = useRouter()
 const route = useRoute()
 
 if (!route.hash.includes('access_token')) {
-  router.push('/')
+    router.push('/')
 }
 
 supabase.auth.onAuthStateChange((event, _session) => {
-  if (event === 'SIGNED_IN') {
-    router.push('/ai-contents')
-  }
+    if (event === 'SIGNED_IN') {
+        router.push('/ai-contents')
+    }
 })
 </script>
 

@@ -7,8 +7,8 @@ import { FormInst, useMessage } from 'naive-ui'
 import { storeToRefs } from 'pinia'
 
 definePageMeta({
-  layout: 'public',
-  middleware: 'public'
+    layout: 'public',
+    middleware: 'public'
 })
 
 const authStore = useAuthStore()
@@ -17,114 +17,114 @@ const message = useMessage()
 const signupForm = ref<FormInst | null>(null)
 
 const rules = {
-  username: [
-    {
-      required: true,
-      message: 'Please enter your username',
-      trigger: 'blur'
-    },
-    {
-      min: 3,
-      message: 'Username must be at least 3 characters',
-      trigger: 'blur'
-    }
-  ],
-  email: [
-    {
-      required: true,
-      message: 'Please enter your email',
-      trigger: 'blur'
-    },
-    {
-      type: 'email',
-      message: 'Please enter a valid email',
-      trigger: 'blur'
-    }
-  ],
-  password: [
-    {
-      required: true,
-      message: 'Please enter your password',
-      trigger: 'blur'
-    },
-    {
-      min: 6,
-      message: 'Password must be at least 6 characters',
-      trigger: 'blur'
-    }
-  ],
-  confirmPassword: [
-    {
-      required: true,
-      message: 'Please confirm your password',
-      trigger: 'blur'
-    },
-    {
-      min: 6,
-      message: 'Password must be at least 6 characters',
-      trigger: 'blur'
-    },
-    {
-      validator: (_rule: any, value: any, callback: any) => {
-        if (value !== model.value.signUp.password) {
-          callback(new Error('Passwords do not match'))
-        } else {
-          callback()
+    username: [
+        {
+            required: true,
+            message: 'Please enter your username',
+            trigger: 'blur'
+        },
+        {
+            min: 3,
+            message: 'Username must be at least 3 characters',
+            trigger: 'blur'
         }
-      },
-      trigger: 'blur'
-    }
-  ]
+    ],
+    email: [
+        {
+            required: true,
+            message: 'Please enter your email',
+            trigger: 'blur'
+        },
+        {
+            type: 'email',
+            message: 'Please enter a valid email',
+            trigger: 'blur'
+        }
+    ],
+    password: [
+        {
+            required: true,
+            message: 'Please enter your password',
+            trigger: 'blur'
+        },
+        {
+            min: 6,
+            message: 'Password must be at least 6 characters',
+            trigger: 'blur'
+        }
+    ],
+    confirmPassword: [
+        {
+            required: true,
+            message: 'Please confirm your password',
+            trigger: 'blur'
+        },
+        {
+            min: 6,
+            message: 'Password must be at least 6 characters',
+            trigger: 'blur'
+        },
+        {
+            validator: (_rule: any, value: any, callback: any) => {
+                if (value !== model.value.signUp.password) {
+                    callback(new Error('Passwords do not match'))
+                } else {
+                    callback()
+                }
+            },
+            trigger: 'blur'
+        }
+    ]
 }
 
 const signUp = () => {
-  signupForm.value?.validate(async (errors: any) => {
-    if (errors) {
-      message.error('Please fill in the required fields')
-      return
-    }
-
-    if (model.value.signUp.password !== model.value.signUp.confirmPassword) {
-      message.error('Passwords do not match')
-      return
-    }
-
-    authStore.setLoading(true)
-    const client = useSupabaseAuthClient()
-    const router = useRouter()
-
-    try {
-      const { data, error } = await client.auth.signUp({
-        email: model.value.signUp.email,
-        password: model.value.signUp.password,
-        options: {
-          emailRedirectTo: 'http://localhost:3000/callback/',
-          data: {
-            username: model.value.signUp.username
-          }
+    signupForm.value?.validate(async (errors: any) => {
+        if (errors) {
+            message.error('Please fill in the required fields')
+            return
         }
-      })
-      if (error) {
-        message.error(error.message)
-        return
-      }
-      if (data.user?.identities?.length === 0) {
-        message.error('The email is already registered')
-        return
-      }
-      message.success('Account created successfully. Please check your email to verify your account.')
-      router.push('/auth/sign-in')
-    } catch (e: any) {
-      message.error(e.message)
-    } finally {
-      authStore.setLoading(false)
-    }
-  })
+
+        if (model.value.signUp.password !== model.value.signUp.confirmPassword) {
+            message.error('Passwords do not match')
+            return
+        }
+
+        authStore.setLoading(true)
+        const client = useSupabaseAuthClient()
+        const router = useRouter()
+
+        try {
+            const { data, error } = await client.auth.signUp({
+                email: model.value.signUp.email,
+                password: model.value.signUp.password,
+                options: {
+                    emailRedirectTo: 'http://localhost:3000/callback/',
+                    data: {
+                        username: model.value.signUp.username
+                    }
+                }
+            })
+            if (error) {
+                message.error(error.message)
+                return
+            }
+            if (data.user?.identities?.length === 0) {
+                message.error('The email is already registered')
+                return
+            }
+            message.success('Account created successfully. Please check your email to verify your account.')
+            router.push('/auth/sign-in')
+        } catch (e: any) {
+            message.error(e.message)
+        } finally {
+            authStore.setLoading(false)
+        }
+    })
 }
 
 onBeforeRouteLeave((_to, _from, next) => {
-  authStore.resetModel()
-  next()
+    authStore.resetModel()
+    next()
 })
 </script>
 

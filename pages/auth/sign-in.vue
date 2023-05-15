@@ -7,7 +7,7 @@ import { FormInst, useMessage } from 'naive-ui'
 import { storeToRefs } from 'pinia'
 
 definePageMeta({
-  layout: 'public'
+    layout: 'public'
 })
 
 const authStore = useAuthStore()
@@ -16,84 +16,87 @@ const signInForm = ref<FormInst | null>(null)
 const message = useMessage()
 
 const rules = {
-  email: [
-    {
-      required: true,
-      message: 'Please enter your email',
-      trigger: 'blur'
-    },
-    {
-      type: 'email',
-      message: 'Please enter a valid email',
-      trigger: 'blur'
-    }
-  ],
-  password: [
-    {
-      required: true,
-      message: 'Please enter your password',
-      trigger: 'blur'
-    }
-  ]
+    email: [
+        {
+            required: true,
+            message: 'Please enter your email',
+            trigger: 'blur'
+        },
+        {
+            type: 'email',
+            message: 'Please enter a valid email',
+            trigger: 'blur'
+        }
+    ],
+    password: [
+        {
+            required: true,
+            message: 'Please enter your password',
+            trigger: 'blur'
+        }
+    ]
 }
 
 const signIn = () => {
-  signInForm.value?.validate(async (errors: any) => {
-    if (errors) {
-      message.error('Please fill in the required fields')
-      return
-    }
+    signInForm.value?.validate(async (errors: any) => {
+        if (errors) {
+            message.error('Please fill in the required fields')
+            return
+        }
 
-    authStore.setLoading(true)
-    const client = useSupabaseAuthClient()
-    const router = useRouter()
+        authStore.setLoading(true)
+        const client = useSupabaseAuthClient()
+        const router = useRouter()
 
-    try {
-      const { data, error } = await client.auth.signInWithPassword({
-        email: model.value.signIn.email,
-        password: model.value.signIn.password
-      })
-      if (error) {
-        message.error(error.message)
-        return
-      }
-      if (data.user) {
-        router.push('/ai-contents/')
-        return
-      }
-    } catch (e: any) {
-      message.error(e.message)
-    } finally {
-      authStore.setLoading(false)
-    }
-  })
+        try {
+            const { data, error } = await client.auth.signInWithPassword({
+                email: model.value.signIn.email,
+                password: model.value.signIn.password
+            })
+
+            if (error) {
+                message.error(error.message)
+                return
+            }
+            if (data.user) {
+                authStore.setMethod('signIn')
+                router.push('/ai-contents/')
+                return
+            }
+        } catch (e: any) {
+            message.error(e.message)
+        } finally {
+            authStore.setLoading(false)
+        }
+    })
 }
 
 const googleSignIn = async (provider: 'google' | 'facebook' | 'twitter') => {
-  authStore.setLoading(true)
-  const client = useSupabaseAuthClient()
+    authStore.setLoading(true)
+    const client = useSupabaseAuthClient()
 
-  try {
-    const { error } = await client.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: 'http://localhost:3000/callback/'
-      }
-    })
-    if (error) {
-      message.error(error.message)
-      return
+    try {
+        const { error } = await client.auth.signInWithOAuth({
+            provider,
+            options: {
+                redirectTo: 'http://localhost:3000/callback/'
+            }
+        })
+        if (error) {
+            message.error(error.message)
+            return
+        }
+        authStore.setMethod('signIn')
+    } catch (e: any) {
+        message.error(e.message)
+    } finally {
+        authStore.setLoading(false)
     }
-  } catch (e: any) {
-    message.error(e.message)
-  } finally {
-    authStore.setLoading(false)
-  }
 }
 
 onBeforeRouteLeave((_to, _from, next) => {
-  authStore.resetModel()
-  next()
+    authStore.resetModel()
+    next()
 })
 </script>
 

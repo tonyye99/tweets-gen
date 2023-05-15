@@ -3,22 +3,22 @@ import { FormInst, useMessage } from 'naive-ui'
 import { storeToRefs } from 'pinia'
 
 definePageMeta({
-  layout: 'public'
+    layout: 'public'
 })
 
 const rules = {
-  email: [
-    {
-      required: true,
-      message: 'Please enter your email',
-      trigger: 'blur'
-    },
-    {
-      type: 'email',
-      message: 'Please enter a valid email',
-      trigger: 'blur'
-    }
-  ]
+    email: [
+        {
+            required: true,
+            message: 'Please enter your email',
+            trigger: 'blur'
+        },
+        {
+            type: 'email',
+            message: 'Please enter a valid email',
+            trigger: 'blur'
+        }
+    ]
 }
 
 const authStore = useAuthStore()
@@ -27,42 +27,42 @@ const resetForm = ref<FormInst | null>(null)
 const message = useMessage()
 
 const forgotPassword = () => {
-  resetForm.value?.validate(async (errors: any) => {
-    if (errors) {
-      message.error('Please fill in the required fields')
-      return
-    }
-
-    authStore.setLoading(true)
-    const client = useSupabaseAuthClient()
-    const router = useRouter()
-
-    try {
-      const { data, error } = await client.auth.resetPasswordForEmail(
-        model.value.forgot.email,
-        {
-          redirectTo: 'http://localhost:3000/auth/reset-password'
+    resetForm.value?.validate(async (errors: any) => {
+        if (errors) {
+            message.error('Please fill in the required fields')
+            return
         }
-      )
-      if (error) {
-        message.error(error.message)
-        return
-      }
-      if (data) {
-        message.success('Password reset email sent! Please check your inbox including spam folder.')
-        router.push('/auth/sign-in')
-      }
-    } catch (e: any) {
-      message.error(e.message)
-    } finally {
-      authStore.setLoading(false)
-    }
-  })
+
+        authStore.setLoading(true)
+        const client = useSupabaseAuthClient()
+        const router = useRouter()
+
+        try {
+            const { data, error } = await client.auth.resetPasswordForEmail(
+                model.value.forgot.email,
+                {
+                    redirectTo: 'http://localhost:3000/auth/reset-password'
+                }
+            )
+            if (error) {
+                message.error(error.message)
+                return
+            }
+            if (data) {
+                message.success('Password reset email sent! Please check your inbox including spam folder.')
+                router.push('/auth/sign-in')
+            }
+        } catch (e: any) {
+            message.error(e.message)
+        } finally {
+            authStore.setLoading(false)
+        }
+    })
 }
 
 onBeforeRouteLeave((_to, _from, next) => {
-  authStore.resetModel()
-  next()
+    authStore.resetModel()
+    next()
 })
 </script>
 
