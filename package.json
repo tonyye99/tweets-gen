@@ -6,18 +6,22 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint:js": "eslint --ext \".ts,.vue\" --ignore-path .gitignore .",
-    "lint:prettier": "prettier --check .",
-    "lint": "yarn lint:js && yarn lint:prettier",
-    "lintfix": "prettier --write --list-different . && yarn lint:js --fix"
+    "lint": "eslint --ext .js,.ts,.vue .",
+    "lintfix": " eslint --fix --ext .js,.ts,.vue ."
   },
   "devDependencies": {
     "@nuxtjs/color-mode": "^3.2.0",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@nuxtjs/eslint-module": "^4.0.2",
+    "@nuxtjs/supabase": "^0.3.1",
+    "@pinia-plugin-persistedstate/nuxt": "^1.1.1",
     "@typescript-eslint/parser": "^5.54.1",
+    "@vicons/antd": "^0.12.0",
+    "@vicons/carbon": "^0.12.0",
+    "@vicons/fa": "^0.12.0",
     "@vicons/fluent": "^0.12.0",
     "@vicons/ionicons4": "^0.12.0",
+    "@vicons/ionicons5": "^0.12.0",
     "@vicons/material": "^0.12.0",
     "autoprefixer": "^10.4.13",
     "eslint": "^8.36.0",
@@ -31,6 +35,7 @@
     "tailwindcss": "^3.2.7",
     "typescript": "^4.9.5",
     "vfonts": "^0.0.3",
+    "vue-eslint-parser": "^9.1.1",
     "vue-gtag-next": "^1.14.0"
   },
   "dependencies": {
@@ -38,9 +43,11 @@
     "@netlify/functions": "^1.4.0",
     "@nuxtjs/robots": "^3.0.0",
     "@pinia/nuxt": "^0.4.7",
+    "@types/aos": "^3.0.4",
     "@types/request-ip": "^0.0.37",
     "@upstash/ratelimit": "^0.3.9",
     "@upstash/redis": "^1.20.1",
+    "aos": "^2.3.4",
     "openai": "^3.2.1",
     "request-ip": "^3.3.0",
     "sse": "https://github.com/mpetazzoni/sse.js"
