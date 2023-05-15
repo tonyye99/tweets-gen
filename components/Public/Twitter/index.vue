@@ -1,0 +1,4 @@
+<template>
+    <PublicTwitterForm />
+    <PublicTwitterResult />
+</template>
