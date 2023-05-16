@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import {
     NConfigProvider,
-    GlobalThemeOverrides
+    GlobalThemeOverrides,
+    darkTheme,
+    lightTheme
 } from 'naive-ui'
 
 const themeOverrides: GlobalThemeOverrides = {
@@ -41,12 +43,18 @@ const themeOverrides: GlobalThemeOverrides = {
         textColorGhostFocusPrimary: '#1DA1F2'
     }
 }
+
+const colorMode = useColorMode()
+
+const theme = computed(() => {
+    return colorMode.value === 'dark' ? darkTheme : lightTheme
+})
 </script>
 
 <template>
   <div class="relative dark:bg-gray-900">
     <ClientOnly>
-      <n-config-provider :theme-overrides="themeOverrides">
+      <n-config-provider :theme-overrides="themeOverrides" :theme="theme">
         <PublicTheHeader />
         <n-message-provider>
           <n-notification-provider>
