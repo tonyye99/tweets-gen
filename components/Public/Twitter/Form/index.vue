@@ -26,8 +26,8 @@ const tabs = ref([
 </script>
 
 <template>
-    <n-card class="shadow-md">
-        <n-tabs class="card-tabs" :default-value="tabs[0].name" trigger="hover" size="large" type="line" animated>
+    <n-card content-style="padding: 0 15px 0 15px;" class="shadow-md">
+        <n-tabs :default-value="tabs[0].name" trigger="hover" size="large" type="line" animated>
             <n-tab-pane v-for="tab in tabs" :key="tab.name" :name="tab.name" :tab="tab.label" @click="resetMessages">
                 <component :is="tab.component" />
             </n-tab-pane>
