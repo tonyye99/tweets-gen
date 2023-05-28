@@ -1,9 +1,6 @@
 import { isProduction } from 'std-env'
 
 export default defineNuxtConfig({
-    nitro: {
-        preset: 'render-com'
-    },
 
     app: {
         head: {
@@ -101,7 +98,8 @@ export default defineNuxtConfig({
         pageTransition: {
             name: 'page',
             mode: 'out-in'
-        }
+        },
+        cdnURL: 'https://d1cemqvb90y01a.cloudfront.net'
     },
 
     modules: [

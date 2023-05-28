@@ -1,15 +1,25 @@
 {
-  "private": true,
   "scripts": {
+    "edgio:dev": "edgio dev",
+    "edgio:build": "edgio build",
+    "edgio:deploy": "edgio deploy",
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint --ext .js,.ts,.vue .",
-    "lintfix": " eslint --fix --ext .js,.ts,.vue ."
+    "lintfix": " eslint --fix --ext .js,.ts,.vue .",
+    "deploy": "sls deploy"
   },
+  "private": true,
   "devDependencies": {
+    "@edgio/cli": "^7.0.14",
+    "@edgio/core": "^7.0.14",
+    "@edgio/devtools": "^7.0.14",
+    "@edgio/nuxt-nitro": "^7.0.14",
+    "@edgio/prefetch": "^7.0.14",
+    "@edgio/vue": "^7.0.14",
     "@nuxtjs/color-mode": "^3.2.0",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@nuxtjs/eslint-module": "^4.0.2",
@@ -31,6 +41,9 @@
     "nuxt": "^3.4.3",
     "postcss": "^8.4.21",
     "prettier": "^2.8.4",
+    "serverless-apigw-binary": "^0.4.4",
+    "serverless-lift": "^1.26.1",
+    "serverless-offline": "^12.0.4",
     "std-env": "^3.3.2",
     "tailwindcss": "^3.2.7",
     "typescript": "^4.9.5",
@@ -48,8 +61,10 @@
     "@upstash/ratelimit": "^0.3.9",
     "@upstash/redis": "^1.20.1",
     "aos": "^2.3.4",
+    "aws-serverless-express": "^3.4.0",
     "openai": "^3.2.1",
     "request-ip": "^3.3.0",
+    "serverless-finch": "^4.0.3",
     "sse": "https://github.com/mpetazzoni/sse.js"
   }
 }

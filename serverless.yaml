@@ -1,0 +1,44 @@
+service: tweets-generator
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: us-east-1
+  apiGateway:
+    binaryMediaTypes:
+      - '*/*'
+  environment:
+    NUXT_UPSTASH_REDIS_API_URL: https://many-sailfish-33143.upstash.io
+    NUXT_UPSTASH_REDIS_TOKEN: AYF3ASQgY2NmOTE3ZDUtMDk4ZS00NzY5LWExYjUtZjkxM2Q1MDM3ZGRiZjA4NDQ3MjZlNGM4NDM4Mjk1MmVlODgxMzIxNDI0ZDM=
+    NUXT_OPENAI_API_KEY: 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
+    GOOGLE_TAG_MANAGER_ID: GTM-5DLX52M
+
+functions:
+  nuxt:
+    handler: .output/server/index.handler
+    events:
+      - http: ANY /
+      - http: ANY /{proxy+}
+
+plugins:
+  - serverless-apigw-binary
+  - serverless-offline
+  - serverless-lift
+
+custom:
+  apigwBinary:
+    types:
+      - "*/*"
+  # client:
+  #   bucketName: tweets-generator-client
+  #   distributionFolder: .output/public
+
+# constructs:
+#   avatars:
+#     type: storage
+#   landing:
+#     type: static-website
+#     path: .output/public
