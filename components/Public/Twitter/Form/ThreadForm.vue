@@ -6,7 +6,7 @@ import { useGtm } from '@gtm-support/vue-gtm'
 const tweetStore = useTweetStore()
 const message = useMessage()
 const gtm = useGtm()
-const { model, loading, size } = storeToRefs(tweetStore)
+const { model, loading, isStreaming, size } = storeToRefs(tweetStore)
 const formRef = ref<FormInst | null>(null)
 
 const handleUpdateValue = () => {
@@ -55,7 +55,7 @@ const handleGenerate = () => {
 
 <template>
   <div>
-    <n-form ref="formRef" :model="model.thread" :disabled="loading" :rules="tweetStore.validations.thread" :size="size"
+    <n-form ref="formRef" :model="model.thread" :disabled="loading || isStreaming" :rules="tweetStore.validations.thread" :size="size"
       label-placement="top" class="mt-5">
       <n-grid responsive="screen">
         <n-form-item-gi :span="24" label="Topic" path="topic">
@@ -78,7 +78,7 @@ const handleGenerate = () => {
           <n-switch v-model:value="model.thread.onlyHook" @update:value="handleUpdateValue" />
         </n-form-item-gi>
         <n-gi :span="24">
-          <n-button type="primary" round :disabled="loading" @click="handleGenerate">
+          <n-button type="primary" round :disabled="loading || isStreaming" @click="handleGenerate">
             Generate Thread
           </n-button>
         </n-gi>

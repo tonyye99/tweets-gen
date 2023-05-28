@@ -6,7 +6,7 @@ import { useGtm } from "@gtm-support/vue-gtm";
 const tweetStore = useTweetStore();
 const message = useMessage();
 const gtm = useGtm();
-const { model, loading, size } = storeToRefs(tweetStore);
+const { model, loading, isStreaming, size } = storeToRefs(tweetStore);
 const formRef = ref<FormInst | null>(null);
 
 const handleGenerate = () => {
@@ -50,7 +50,7 @@ const handleGenerate = () => {
 
 <template>
   <div>
-    <n-form ref="formRef" :model="model.bio" :disabled="loading" :rules="tweetStore.validations.bio" :size="size"
+    <n-form ref="formRef" :model="model.bio" :disabled="loading || isStreaming" :rules="tweetStore.validations.bio" :size="size"
       label-placement="top" class="mt-5">
       <n-grid responsive="screen">
         <n-form-item-gi :span="24" label="Niche" path="niche">
@@ -69,7 +69,7 @@ const handleGenerate = () => {
         </n-form-item-gi>
         <n-form-item-gi />
         <n-gi :span="24">
-          <n-button type="primary" round :disabled="loading" @click="handleGenerate">
+          <n-button type="primary" round :disabled="loading || isStreaming" @click="handleGenerate">
             Generate Bio
           </n-button>
         </n-gi>
