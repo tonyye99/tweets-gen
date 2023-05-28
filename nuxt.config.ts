@@ -99,7 +99,6 @@ export default defineNuxtConfig({
             name: 'page',
             mode: 'out-in'
         },
-        cdnURL: 'https://d1cemqvb90y01a.cloudfront.net'
     },
 
     modules: [
