@@ -55,7 +55,7 @@ const handleGenerate = () => {
 <template>
   <div>
     <n-form ref="formRef" :model="model.tweet" :disabled="loading || isStreaming" :rules="tweetStore.validations.tweet" :size="size"
-      label-placement="top" class="mt-5">
+      label-placement="top" class="p-3">
       <n-grid responsive="screen">
         <n-form-item-gi :span="24" label="Topic" path="topic">
           <n-input v-model:value="model.tweet.topic" :placeholder="tweetStore.randomPlaceholder" />
@@ -76,7 +76,6 @@ const handleGenerate = () => {
             Question
           </n-checkbox>
         </n-form-item-gi>
-        <n-form-item-gi />
         <n-gi :span="24">
           <n-button type="primary" round :disabled="loading || isStreaming" @click="handleGenerate">
             Generate Tweet

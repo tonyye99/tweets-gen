@@ -1,22 +1,24 @@
 <script setup lang="ts">
+import TweetForm from './TweetForm.vue'
+import ThreadForm from './ThreadForm.vue'
+import BioForm from './BioForm.vue'
 
 const tweetStore = useTweetStore()
-
 const tabs = ref([
     {
         name: 'tweet',
         label: 'Tweet',
-        component: defineAsyncComponent(() => import('./TweetForm.vue'))
+        component: TweetForm
     },
     {
         name: 'thread',
         label: 'Thread',
-        component: defineAsyncComponent(() => import('./ThreadForm.vue'))
+        component: ThreadForm
     },
     {
         name: 'bio',
         label: 'Bio',
-        component: defineAsyncComponent(() => import('./BioForm.vue'))
+        component: BioForm
     }
 ])
 

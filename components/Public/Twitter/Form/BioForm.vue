@@ -50,8 +50,8 @@ const handleGenerate = () => {
 
 <template>
   <div>
-    <n-form ref="formRef" :model="model.bio" :disabled="loading || isStreaming" :rules="tweetStore.validations.bio" :size="size"
-      label-placement="top" class="mt-5">
+    <n-form ref="formRef" :model="model.bio" :disabled="loading || isStreaming" :rules="tweetStore.validations.bio"
+      :size="size" label-placement="top" class="p-3">
       <n-grid responsive="screen">
         <n-form-item-gi :span="24" label="Niche" path="niche">
           <n-select v-model:value="model.bio.niche" placeholder="Select your niche (Input and enter to create a new one)"
@@ -67,7 +67,6 @@ const handleGenerate = () => {
             Emoji
           </n-checkbox>
         </n-form-item-gi>
-        <n-form-item-gi />
         <n-gi :span="24">
           <n-button type="primary" round :disabled="loading || isStreaming" @click="handleGenerate">
             Generate Bio

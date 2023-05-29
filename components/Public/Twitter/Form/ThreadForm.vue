@@ -55,8 +55,8 @@ const handleGenerate = () => {
 
 <template>
   <div>
-    <n-form ref="formRef" :model="model.thread" :disabled="loading || isStreaming" :rules="tweetStore.validations.thread" :size="size"
-      label-placement="top" class="mt-5">
+    <n-form ref="formRef" :model="model.thread" :disabled="loading || isStreaming" :rules="tweetStore.validations.thread"
+      :size="size" label-placement="top" class="p-3">
       <n-grid responsive="screen">
         <n-form-item-gi :span="24" label="Topic" path="topic">
           <n-input v-model:value="model.thread.topic" :placeholder="tweetStore.randomPlaceholder" />

@@ -106,7 +106,6 @@ export default defineNuxtConfig({
         '@nuxtjs/color-mode',
         '@nuxtjs/eslint-module',
         '@nuxtjs/robots',
-        '@nuxtjs/supabase',
         '@pinia-plugin-persistedstate/nuxt'
     ],
 
@@ -140,8 +139,6 @@ export default defineNuxtConfig({
         upstashRedisApiUrl: process.env.UPSTASH_REDIS_API_URL,
         upstashRedisToken: process.env.UPSTASH_REDIS_TOKEN,
         openaiApiKey: process.env.OPENAI_API_KEY,
-        supabaseUrl: process.env.SUPABASE_URL,
-        supabaseKey: process.env.SUPABASE_KEY,
         public: {
             isProduction,
             google_tag_manager_id: process.env.GOOGLE_TAG_MANAGER_ID
